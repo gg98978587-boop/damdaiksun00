@@ -262,7 +262,7 @@
         .journey-card { background: white; border-radius: 48px; padding: 36px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); border: 6px solid white; }
         .journey-title { font-size: 1.3rem; color: #0f172a; line-height: 1.3; }
         .journey-date { font-size: 1rem; font-weight: 800; color: #3b82f6; margin-top: 4px; }
-        .journey-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+        .journey-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap: 12px; margin-top: 20px; }
         .journey-photo { width:100%; height:100%; object-fit:cover; border-radius:20px; cursor:pointer; display:block; }
         .add-photo-btn { aspect-ratio: 1; background: #f8fafc; border-radius: 20px; border: 3px dashed #e2e8f0; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.2s; }
         .add-photo-btn:hover { border-color: #4CAF50; }
@@ -599,21 +599,39 @@ const JOURNEY_DATA = [
 ];
 
 // ============ ABOUT PHOTO ============
+
 function handleAboutPhoto(input) {
+
     const file = input.files[0];
+
     if (!file) return;
+
     const reader = new FileReader();
-    reader.onload = function(e) {
+
+    reader.onload = async function(e) {
+
+        const base64Data = e.target.result;
+
         const area = document.getElementById('about-photo-area');
-        area.innerHTML = '<button class="delete-photo-btn" onclick="event.stopPropagation(); removeAboutPhoto()">✕</button><img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;" onclick="document.getElementById(\'about-file\').click()">';
+
+        area.innerHTML = `
+            <button class="delete-photo-btn" onclick="event.stopPropagation(); removeAboutPhoto()">✕</button>
+            <img src="${base64Data}" style="width:100%;height:100%;object-fit:cover;" onclick="document.getElementById('about-file').click()">
+        `;
+
         area.appendChild(input);
+
+        await saveAboutPhotoToSupabase(base64Data);
+
         saveAllData();
     };
+
     reader.readAsDataURL(file);
 }
 
 
-function removeAboutPhoto() {
+
+async function removeAboutPhoto() {
     const area = document.getElementById('about-photo-area');
 
     area.innerHTML = `
@@ -631,6 +649,11 @@ function removeAboutPhoto() {
     input.onchange = function() { handleAboutPhoto(this); };
 
     area.appendChild(input);
+
+    await supabaseClient
+        .from('about_photo')
+        .delete()
+        .neq('id', 0);
 
     saveAllData();
 }
@@ -1342,6 +1365,7 @@ async async function initializeApp() {
     // 회기 사진 먼저 로드
     if (typeof loadJourneyPhotosFromSupabase === 'function') {
         await loadJourneyPhotosFromSupabase();
+        await loadAboutPhotoFromSupabase();
     }
 
     // 기존 데이터 로드
@@ -1371,7 +1395,7 @@ if (document.readyState === 'complete') {
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
 <script>
-const SUPABASE_URL = 'https://ftqytarohkcovvroscuo.supabase.co';
+const SUPABASE_URL = 'https://ftqytarohkcovvroscuo.supabase.co/rest/v1/';
 const SUPABASE_KEY = 'sb_publishable_zsfWibg9kNq2ZVdNYOO6bg_P1pRZ-0Q';
 
 const supabaseClient = supabase.createClient(
@@ -1409,7 +1433,11 @@ async function loadActionsFromSupabase() {
     list.innerHTML = '';
 
     // 기존 사진 초기화
-    document.querySelectorAll('.journey-photo-wrap').forEach(el => el.remove());
+    
+    document.querySelectorAll('[id^="photos-"]').forEach(grid => {
+        grid.querySelectorAll('.journey-photo-wrap').forEach(el => el.remove());
+    });
+    
 
     data.forEach(item => {
         const card = document.createElement('div');
@@ -1454,6 +1482,60 @@ supabaseClient
 
 // ===== SUPABASE JOURNEY PHOTO SHARE (BASE64 DB VERSION) =====
 
+// ===== ABOUT PHOTO SHARE =====
+
+async function saveAboutPhotoToSupabase(base64Data) {
+
+    // 기존 삭제
+    await supabaseClient
+        .from('about_photo')
+        .delete()
+        .neq('id', 0);
+
+    const { error } = await supabaseClient
+        .from('about_photo')
+        .insert([{
+            image_data: base64Data,
+            created_at: new Date().toISOString()
+        }]);
+
+    if(error) {
+        console.error('about photo save failed', error);
+    }
+}
+
+async function loadAboutPhotoFromSupabase() {
+
+    const { data, error } = await supabaseClient
+        .from('about_photo')
+        .select('*')
+        .order('created_at', { ascending:false })
+        .limit(1);
+
+    if(error || !data || !data.length) return;
+
+    const photo = data[0];
+
+    const area = document.getElementById('about-photo-area');
+
+    if(!area) return;
+
+    area.innerHTML = `
+        <button class="delete-photo-btn" onclick="event.stopPropagation(); removeAboutPhoto()">✕</button>
+        <img src="${photo.image_data}" style="width:100%;height:100%;object-fit:cover;" onclick="document.getElementById('about-file').click()">
+    `;
+
+    const input = document.createElement('input');
+    input.type = 'file';
+    input.id = 'about-file';
+    input.accept = 'image/*';
+    input.style.display = 'none';
+    input.onchange = function() { handleAboutPhoto(this); };
+
+    area.appendChild(input);
+}
+
+
 
 async function uploadJourneyPhotoToSupabase(base64Data, idx) {
 
@@ -1490,7 +1572,11 @@ async function loadJourneyPhotosFromSupabase() {
     }
 
     // 기존 사진 초기화
-    document.querySelectorAll('.journey-photo-wrap').forEach(el => el.remove());
+    
+    document.querySelectorAll('[id^="photos-"]').forEach(grid => {
+        grid.querySelectorAll('.journey-photo-wrap').forEach(el => el.remove());
+    });
+    
 
     data.forEach(item => {
 
