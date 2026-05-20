@@ -1333,12 +1333,22 @@ window.addEventListener('beforeunload', () => {
 });
 
 // ============ INIT ============
-async function initializeApp() {
+async async function initializeApp() {
     if (window.__APP_INITIALIZED__) return;
     window.__APP_INITIALIZED__ = true;
 
     buildJourney();
-    await loadAllData();
+
+    // 회기 사진 먼저 로드
+    if (typeof loadJourneyPhotosFromSupabase === 'function') {
+        await loadJourneyPhotosFromSupabase();
+    }
+
+    // 기존 데이터 로드
+    if (typeof loadAllData === 'function') {
+        await loadAllData();
+    }
+
     updateForest();
 
     document.getElementById('loading').style.display = 'none';
@@ -1398,6 +1408,9 @@ async function loadActionsFromSupabase() {
 
     list.innerHTML = '';
 
+    // 기존 사진 초기화
+    document.querySelectorAll('.journey-photo-wrap').forEach(el => el.remove());
+
     data.forEach(item => {
         const card = document.createElement('div');
         card.className = 'action-card';
@@ -1454,9 +1467,11 @@ async function uploadJourneyPhotoToSupabase(base64Data, idx) {
 
     if(error) {
         console.error('journey photo save failed', error);
+        alert('회기 사진 저장 실패');
         return false;
     }
 
+    console.log('회기 사진 저장 성공');
     return true;
 }
 
@@ -1473,6 +1488,9 @@ async function loadJourneyPhotosFromSupabase() {
         console.error('journey load failed', error);
         return;
     }
+
+    // 기존 사진 초기화
+    document.querySelectorAll('.journey-photo-wrap').forEach(el => el.remove());
 
     data.forEach(item => {
 
