@@ -869,34 +869,58 @@ function buildJourney() {
     });
 }
 
-function addJourneyPhotos(idx, input) {
+
+
+
+async function addJourneyPhotos(idx, input) {
+
     const files = Array.from(input.files);
+
     const grid = document.getElementById('photos-' + idx);
+
     const addBtn = grid.querySelector('.add-photo-btn');
-    files.forEach(file => {
+
+    for (const file of files) {
+
         const reader = new FileReader();
-        reader.onload = function(e) {
+
+        reader.onload = async function(e) {
+
+            const base64Data = e.target.result;
+
+            // 화면 즉시 표시
             const wrap = document.createElement('div');
-            wrap.className = 'journey-photo-wrap'; wrap.draggable = true;
 
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.className = 'journey-photo';
+            wrap.className = 'journey-photo-wrap';
+            wrap.draggable = true;
 
-            const del = document.createElement('button');
-            del.className = 'delete-photo-btn';
-            del.innerText = '✕';
-            del.onclick = (e) => { e.stopPropagation(); e.preventDefault(); wrap.remove(); saveAllData(); };
+            wrap.innerHTML = `
+                <img src="${base64Data}" class="journey-photo">
+                <button class="delete-photo-btn">✕</button>
+            `;
 
-            wrap.appendChild(img);
-            wrap.appendChild(del);
+            wrap.querySelector('.delete-photo-btn').onclick = function(ev) {
+                ev.stopPropagation();
+                ev.preventDefault();
+                wrap.remove();
+            };
 
             grid.insertBefore(wrap, addBtn);
-            saveAllData();
+
+            // Supabase 저장
+            const saved = await uploadJourneyPhotoToSupabase(base64Data, idx);
+
+            if(!saved) {
+                console.error('journey photo db save failed');
+            }
         };
+
         reader.readAsDataURL(file);
-    });
+    }
 }
+
+
+
 
 
 // ============ SORTABLE GALLERY ============
@@ -1409,12 +1433,86 @@ supabaseClient
         },
         () => {
             loadActionsFromSupabase();
+    loadJourneyPhotosFromSupabase();
         }
     )
     .subscribe();
 
+
+// ===== SUPABASE JOURNEY PHOTO SHARE (BASE64 DB VERSION) =====
+
+
+async function uploadJourneyPhotoToSupabase(base64Data, idx) {
+
+    const { error } = await supabaseClient
+        .from('journey_photos')
+        .insert([{
+            journey_idx: idx,
+            image_data: base64Data,
+            created_at: new Date().toISOString()
+        }]);
+
+    if(error) {
+        console.error('journey photo save failed', error);
+        return false;
+    }
+
+    return true;
+}
+
+
+
+async function loadJourneyPhotosFromSupabase() {
+
+    const { data, error } = await supabaseClient
+        .from('journey_photos')
+        .select('*')
+        .order('created_at', { ascending:true });
+
+    if(error) {
+        console.error('journey load failed', error);
+        return;
+    }
+
+    data.forEach(item => {
+
+        const grid = document.getElementById('photos-' + item.journey_idx);
+
+        if(!grid) return;
+
+        const addBtn = grid.querySelector('.add-photo-btn');
+
+        const wrap = document.createElement('div');
+        wrap.className = 'journey-photo-wrap';
+        wrap.draggable = true;
+
+        wrap.innerHTML = `
+            <img src="${item.image_data}" class="journey-photo">
+            <button class="delete-photo-btn">✕</button>
+        `;
+
+        wrap.querySelector('.delete-photo-btn').onclick = async function(e) {
+
+            e.stopPropagation();
+            e.preventDefault();
+
+            wrap.remove();
+
+            await supabaseClient
+                .from('journey_photos')
+                .delete()
+                .eq('id', item.id);
+        };
+
+        grid.insertBefore(wrap, addBtn);
+    });
+}
+
+
+
 window.addEventListener('load', () => {
     loadActionsFromSupabase();
+    loadJourneyPhotosFromSupabase();
 });
 </script>
 </body>
