@@ -175,7 +175,6 @@
         }
 
         
-        .journey-photo-wrap { position:relative; display:block; aspect-ratio:1; overflow:hidden; border-radius:20px; }
         .journey-photo-wrap.dragging {
             opacity: 0.5;
             transform: scale(0.95);
@@ -249,7 +248,7 @@
         .cute-button-lg { font-size: 1.3rem; padding: 20px; width: 100%; }
         .form-group { margin-bottom: 20px; }
         .actions-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 28px; }
-        .action-card { background: white; padding: 20px; border-radius: 40px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); color: #1e293b; position: relative; }
+        .action-card { background: white; padding: 20px; border-radius: 40px; box-shadow: 0 8px 32px rgba(0,0,0,0.15); color: #1e293b; }
         .action-card-img { height: 180px; background: #E8F5E9; border-radius: 28px; overflow: hidden; margin-bottom: 16px; }
         .action-card-img img { width: 100%; height: 100%; object-fit: cover; }
         .action-card-type { font-size: 0.8rem; font-weight: 800; color: #4CAF50; text-transform: uppercase; margin-bottom: 6px; }
@@ -262,8 +261,8 @@
         .journey-card { background: white; border-radius: 48px; padding: 36px; box-shadow: 0 8px 32px rgba(0,0,0,0.08); border: 6px solid white; }
         .journey-title { font-size: 1.3rem; color: #0f172a; line-height: 1.3; }
         .journey-date { font-size: 1rem; font-weight: 800; color: #3b82f6; margin-top: 4px; }
-        .journey-photos { display: grid; grid-template-columns: repeat(auto-fill, minmax(120px,1fr)); gap: 12px; margin-top: 20px; }
-        .journey-photo { width:100%; height:100%; object-fit:cover; border-radius:20px; cursor:pointer; display:block; }
+        .journey-photos { display: grid; grid-template-columns: repeat(3, 1fr); gap: 12px; margin-top: 20px; }
+        .journey-photo { aspect-ratio: 1; object-fit: cover; border-radius: 20px; cursor: pointer; width: 100%; }
         .add-photo-btn { aspect-ratio: 1; background: #f8fafc; border-radius: 20px; border: 3px dashed #e2e8f0; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: border-color 0.2s; }
         .add-photo-btn:hover { border-color: #4CAF50; }
         .add-photo-btn svg { width: 28px; height: 28px; color: #cbd5e1; }
@@ -291,71 +290,7 @@
         /* FOOTER */
         footer { padding: 60px 24px; text-align: center; color: #94a3b8; font-weight: 800; font-size: 0.95rem; }
 
-
-
-        .pixel-sun {
-            position:absolute; top:18px; left:24px;
-            font-size:42px; animation: floatSun 4s ease-in-out infinite;
-        }
-        .pixel-cloud {
-            position:absolute; font-size:54px; opacity:0.95;
-            animation: cloudMove 22s ease-in-out infinite;
-        }
-        .forest-ground {
-            position:absolute; bottom:0; width:100%; height:70px;
-            background:linear-gradient(to bottom,#74c74d,#4d9b37);
-        }
-        .grow-item {
-            position:absolute; animation: growPop 0.6s ease;
-            user-select:none; filter: drop-shadow(0 6px 10px rgba(0,0,0,0.15));
-        }
-        @keyframes growPop {
-            0% { transform: scale(0) translateY(20px); opacity:0; }
-            70% { transform: scale(1.1) translateY(-4px); }
-            100% { transform: scale(1) translateY(0); opacity:1; }
-        }
-        /* BREAD SAVE BUTTON */
-        .bread-save-btn {
-            display: inline-flex; align-items: center; gap: 8px;
-            background: linear-gradient(135deg, #fff8f0, #ffecd8);
-            color: #a0522d; font-weight: 800; font-size: 0.95rem;
-            border: 3px solid #f5c99a; border-radius: 999px;
-            padding: 10px 22px; cursor: pointer;
-            box-shadow: 0 4px 0 #d4956a, 0 6px 16px rgba(160,82,45,0.15);
-            font-family: 'NanumSquareNeo', sans-serif;
-            transition: all 0.15s;
-        }
-        .bread-save-btn:hover { background: linear-gradient(135deg, #ffecd8, #ffd9b3); transform: translateY(-1px); }
-        .bread-save-btn:active { box-shadow: 0 1px 0 #d4956a; transform: translateY(3px); }
-
-        /* CIRCULAR DELETE BUTTONS */
-        .delete-photo-btn {
-            position: absolute; top: 8px; right: 8px;
-            width: 28px; height: 28px; border-radius: 50%;
-            background: rgba(239,68,68,0.9); color: white;
-            border: 2px solid white; cursor: pointer;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 0.8rem; font-weight: 900; line-height: 1;
-            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
-            transition: all 0.2s; z-index: 10;
-        }
-        .delete-photo-btn:hover { background: #dc2626; transform: scale(1.15); }
-        
-.save-toast {
-    position: fixed;
-    top: 100px;
-    right: 30px;
-    background: #166534;
-    color: white;
-    padding: 14px 24px;
-    border-radius: 999px;
-    font-weight: 800;
-    z-index: 99999;
-    box-shadow: 0 10px 25px rgba(0,0,0,0.15);
-    animation: toastFade 2s ease forwards;
-}
-
-@media (max-width: 768px) {
+        @media (max-width: 768px) {
             .co2-grid, .about-grid { grid-template-columns: 1fr; }
             .journey-grid { grid-template-columns: 1fr; }
             .nav-links { display: none; }
@@ -442,7 +377,7 @@
         <div>
             <div class="label">CO₂ 절감</div>
             <div class="value">
-                <span id="co2-display">0</span> g
+                <span id="co2-display">0</span> kg
             </div>
         </div>
     </div>
@@ -465,7 +400,7 @@
                 <div class="about-text">
                     <p>우리는 디지털 기술로 세상을 초록빛으로 바꿀 수 있다고 믿어요🌍</p>
                     <p>AI와 대화하며 탄소 배출 줄이는 법을 고민합니다.</p>
-                    <p>친환경 원데이클래스로 직접 실천하며 지구를 지키는 '디지털 시민'이 되어봐요!</p>
+                    <p>친환경 원데이클래스로 직접 실천하며 지구를 지키는 '디지털 시민'이 되어봅니다.</p>
                 </div>
                 <div class="declaration">
                     <h4>🌱 우리의 디지털 탄소중립 선언문</h4>
@@ -599,63 +534,28 @@ const JOURNEY_DATA = [
 ];
 
 // ============ ABOUT PHOTO ============
-
 function handleAboutPhoto(input) {
-
     const file = input.files[0];
-
     if (!file) return;
-
     const reader = new FileReader();
-
-    reader.onload = async function(e) {
-
-        const base64Data = e.target.result;
-
+    reader.onload = function(e) {
         const area = document.getElementById('about-photo-area');
-
-        area.innerHTML = `
-            <button class="delete-photo-btn" onclick="event.stopPropagation(); removeAboutPhoto()">✕</button>
-            <img src="${base64Data}" style="width:100%;height:100%;object-fit:cover;" onclick="document.getElementById('about-file').click()">
-        `;
-
+        area.innerHTML = '<button class="delete-photo-btn" onclick="event.stopPropagation(); removeAboutPhoto()">✕</button><img src="' + e.target.result + '" style="width:100%;height:100%;object-fit:cover;" onclick="document.getElementById(\'about-file\').click()">';
         area.appendChild(input);
-
-        await saveAboutPhotoToSupabase(base64Data);
-
-        saveAllData();
+        // manual save
     };
-
     reader.readAsDataURL(file);
 }
 
 
-
-async function removeAboutPhoto() {
+function removeAboutPhoto() {
     const area = document.getElementById('about-photo-area');
-
     area.innerHTML = `
         <div class="photo-upload-text" id="about-placeholder">
             <svg width="60" height="60" fill="#E8F5E9" viewBox="0 0 24 24" style="margin:0 auto 12px;display:block;"><path d="M12 15.2l-4.2-4.2-1.4 1.4 5.6 5.6 5.6-5.6-1.4-1.4L12 15.2zm0-10.8C8.13 4.4 5 7.53 5 11.4h2c0-2.76 2.24-5 5-5s5 2.24 5 5h2c0-3.87-3.13-7-7-7z"/></svg>
             대표 사진을 등록해주세요 📸
         </div>
     `;
-
-    const input = document.createElement('input');
-    input.type = 'file';
-    input.id = 'about-file';
-    input.accept = 'image/*';
-    input.style.display = 'none';
-    input.onchange = function() { handleAboutPhoto(this); };
-
-    area.appendChild(input);
-
-    await supabaseClient
-        .from('about_photo')
-        .delete()
-        .neq('id', 0);
-
-    saveAllData();
 }
 
 // ============ CO2 FOREST ============
@@ -663,93 +563,107 @@ async function removeAboutPhoto() {
 
 
 
-function deleteActionCard(btn) {
-    const card = btn.closest('.action-card');
-    const typeText = card.querySelector('.action-card-type')?.textContent || '';
-    // find co2 from type
-    const typeMap = {'🥤 텀블러 사용':15,'🍱 다회용기 사용':20,'🥣 잔반 제로':30,'🚌 대중교통 이용':10,'🥬 친환경 베이킹':50};
-    const co2 = typeMap[typeText.trim()] || 0;
-    totalCO2 = Math.max(0, totalCO2 - co2);
-    card.remove();
-    updateForest();
-    saveAllData();
-}
-
 function updateForest() {
     const box = document.getElementById('forest-box');
 
-    // 카드 기준으로 CO2 재계산
-    let recalculatedCO2 = 0;
-
-    const typeMap = {
-        '🥤 텀블러 사용':15,
-        '🍱 다회용기 사용':20,
-        '🥣 잔반 제로':30,
-        '🚌 대중교통 이용':10,
-        '🥬 친환경 베이킹':50
-    };
-
-    document.querySelectorAll('.action-card').forEach(card => {
-        const typeText = card.querySelector('.action-card-type')?.textContent?.trim();
-        recalculatedCO2 += typeMap[typeText] || 0;
-    });
-
-    totalCO2 = recalculatedCO2;
-
     const actionCount = document.querySelectorAll('.action-card').length;
-
-    // 나무 증가 체감 잘 되게 수정
-    const treeCount = Math.max(0, Math.floor(totalCO2 / 10));
+    const treeCount = Math.floor(totalCO2 / 20);
 
     document.getElementById('action-count').textContent = actionCount;
     document.getElementById('tree-count').textContent = treeCount;
-
-    // 숫자 바로 증가하도록 g 단위 표시
-    document.getElementById('co2-display').textContent = totalCO2;
+    document.getElementById('co2-display').textContent = (totalCO2 / 1000).toFixed(1);
 
     let html = `
         <div class="pixel-sun">☀️</div>
+
         <div class="pixel-cloud" style="top:30px;left:18%;">☁️</div>
         <div class="pixel-cloud" style="top:60px;left:44%;animation-delay:-6s;">☁️</div>
         <div class="pixel-cloud" style="top:28px;right:8%;animation-delay:-10s;">☁️</div>
+
         <div class="forest-ground"></div>
     `;
 
-    if (totalCO2 >= 80)
+    // lake
+    if (totalCO2 >= 80) {
         html += `<div class="grow-item" style="left:0;bottom:0;font-size:120px;">🩵</div>`;
-    if (totalCO2 >= 140)
+    }
+
+    
+
+    // mountains
+    if (totalCO2 >= 140) {
         html += `<div class="grow-item" style="right:150px;bottom:110px;font-size:160px;">⛰️</div>`;
-    if (totalCO2 >= 220)
+    }
+
+    if (totalCO2 >= 220) {
         html += `<div class="grow-item" style="right:40px;bottom:100px;font-size:200px;">🏔️</div>`;
-    if (totalCO2 >= 320)
+    }
+
+    // cabin
+    if (totalCO2 >= 320) {
         html += `<div class="grow-item" style="right:170px;bottom:52px;font-size:160px;">🏡</div>`;
-    if (totalCO2 >= 340)
+    }
+
+    // path
+    if (totalCO2 >= 340) {
         html += `<div class="grow-item" style="right:260px;bottom:8px;font-size:120px;">🟫</div>`;
+    }
 
+    // flowers
     const flowerCount = Math.floor(totalCO2 / 55);
-    const flowers = ['🌼','🌸','🌺'];
+
     for (let i = 0; i < flowerCount; i++) {
-        html += `<div class="grow-item" style="left:${6+(i*8)%90}%;bottom:${8+(i%4)*10}px;font-size:${24+(i%3)*4}px;">${flowers[i%flowers.length]}</div>`;
+        const flowers = ['🌼','🌸','🌺'];
+        html += `
+            <div class="grow-item"
+                 style="left:${6 + (i * 8) % 90}%;
+                        bottom:${8 + (i % 4) * 10}px;
+                        font-size:${24 + (i % 3) * 4}px;">
+                ${flowers[i % flowers.length]}
+            </div>
+        `;
     }
 
-    const trees = ['🌲','🌳'];
+    // trees
     for (let i = 0; i < treeCount; i++) {
-        html += `<div class="grow-item" style="left:${14+(i*10)%78}%;bottom:${50+(i%4)*14}px;font-size:${48+(i%4)*10}px;">${trees[i%2]}</div>`;
+        const trees = ['🌲','🌳'];
+        const size = 48 + (i % 4) * 10;
+
+        html += `
+            <div class="grow-item"
+                 style="left:${14 + (i * 10) % 78}%;
+                        bottom:${50 + (i % 4) * 14}px;
+                        font-size:${size}px;">
+                ${trees[i % trees.length]}
+            </div>
+        `;
     }
 
+    // butterflies
     const butterflyCount = Math.floor(totalCO2 / 180);
+
     for (let i = 0; i < butterflyCount; i++) {
-        html += `<div class="grow-item" style="left:${22+i*18}%;bottom:${240+(i%2)*40}px;font-size:42px;">🦋</div>`;
+        html += `
+            <div class="grow-item"
+                 style="left:${22 + i * 18}%;
+                        bottom:${240 + (i % 2) * 40}px;
+                        font-size:42px;">
+                🦋
+            </div>
+        `;
     }
 
-    if (totalCO2 >= 520)
+    // animals
+    if (totalCO2 >= 520) {
         html += `<div class="grow-item" style="left:70%;bottom:50px;font-size:80px;">🦌</div>`;
-    if (totalCO2 >= 650)
+    }
+
+    if (totalCO2 >= 650) {
         html += `<div class="grow-item" style="left:45%;bottom:260px;font-size:90px;">🌈</div>`;
+    }
 
     box.innerHTML = html;
 }
-
 
 
 
@@ -789,7 +703,7 @@ function saveRecipe() {
     document.getElementById('rf-draft').value = '';
     document.getElementById('rf-feedback').value = '';
     toggleRecipeForm();
-    saveAllData();
+    // manual save
 }
 
 // ============ ACTION ============
@@ -823,25 +737,15 @@ function addAction() {
     }
     const comment = document.getElementById('act-comment').value || '지구를 생각하는 소중한 실천!';
     const typeMap = {'15':'🥤 텀블러 사용','20':'🍱 다회용기 사용','30':'🥣 잔반 제로','10':'🚌 대중교통 이용','50':'🥬 친환경 베이킹'};
-    const typeMapText = {
-        '15':'🥤 텀블러 사용',
-        '20':'🍱 다회용기 사용',
-        '30':'🥣 잔반 제로',
-        '10':'🚌 대중교통 이용',
-        '50':'🥬 친환경 베이킹'
-    };
-
-    const typeText = typeMapText[selectedType] || '친환경 활동';
-
     const co2 = parseInt(selectedType);
     totalCO2 += co2;
-
+    updateForest();
     const card = document.createElement('div');
     card.className = 'action-card';
     card.style.animation = 'fadeIn 0.4s ease';
     card.innerHTML = `
         <div class="action-card-img" style="position:relative;">
-            <button class="delete-photo-btn" onclick="deleteActionCard(this)">✕</button>
+            <button class="delete-photo-btn" onclick="this.closest('.action-card').remove()">✕</button>
             <img src="${actionImageData}" alt="action">
         </div>
         <p class="action-card-type">${typeMap[selectedType]}</p>
@@ -849,18 +753,6 @@ function addAction() {
         <p style="font-size:0.85rem;color:#94a3b8;margin-top:4px;font-weight:700;">— ${author}</p>
     `;
     document.getElementById('actions-list').prepend(card);
-
-    saveActionToSupabase({
-        author: author,
-        type: typeText || '',
-        comment: comment || '',
-        image: actionImageData || '',
-        created_at: new Date().toISOString()
-    });
-
-    // 대시보드 즉시 반영
-    updateForest();
-
     document.getElementById('act-author').value = '';
     document.getElementById('act-comment').value = '';
     actionImageData = null;
@@ -868,7 +760,7 @@ function addAction() {
     const img = area.querySelector('img');
     if (img) img.remove();
     document.getElementById('upload-placeholder').style.display = '';
-    saveAllData();
+    // manual save
 }
 
 // ============ JOURNEY GALLERY ============
@@ -892,84 +784,34 @@ function buildJourney() {
     });
 }
 
-
-
-
-
-async function addJourneyPhotos(idx, input) {
-
+function addJourneyPhotos(idx, input) {
     const files = Array.from(input.files);
-
     const grid = document.getElementById('photos-' + idx);
-
     const addBtn = grid.querySelector('.add-photo-btn');
-
-    for (const file of files) {
-
+    files.forEach(file => {
         const reader = new FileReader();
-
-        reader.onload = async function(e) {
-
-            const base64Data = e.target.result;
-
-            // 먼저 DB 저장
-            const { data, error } = await supabaseClient
-                .from('journey_photos')
-                .insert([{
-                    journey_idx: idx,
-                    image_data: base64Data,
-                    created_at: new Date().toISOString()
-                }])
-                .select()
-                .single();
-
-            if(error) {
-                console.error(error);
-                alert('회기 사진 저장 실패');
-                return;
-            }
-
-            // 이미 같은 사진 있으면 중복 생성 방지
-            if(document.querySelector(`[data-photo-id="${data.id}"]`)) {
-                return;
-            }
-
+        reader.onload = function(e) {
             const wrap = document.createElement('div');
+            wrap.className = 'journey-photo-wrap'; wrap.draggable = true;
 
-            wrap.className = 'journey-photo-wrap';
+            const img = document.createElement('img');
+            img.src = e.target.result;
+            img.className = 'journey-photo';
 
-            wrap.draggable = true;
+            const del = document.createElement('button');
+            del.className = 'delete-photo-btn';
+            del.innerText = '✕';
+            del.onclick = () => wrap.remove();
 
-            wrap.dataset.photoId = data.id;
-
-            wrap.innerHTML = `
-                <img src="${base64Data}" class="journey-photo">
-                <button class="delete-photo-btn">✕</button>
-            `;
-
-            wrap.querySelector('.delete-photo-btn').onclick = async function(ev) {
-
-                ev.stopPropagation();
-                ev.preventDefault();
-
-                wrap.remove();
-
-                await supabaseClient
-                    .from('journey_photos')
-                    .delete()
-                    .eq('id', data.id);
-            };
+            wrap.appendChild(img);
+            wrap.appendChild(del);
 
             grid.insertBefore(wrap, addBtn);
+            // manual save
         };
-
         reader.readAsDataURL(file);
-    }
+    });
 }
-
-
-
-
 
 
 // ============ SORTABLE GALLERY ============
@@ -1005,8 +847,6 @@ document.addEventListener('dragover', function(e) {
         draggedPhoto,
         next ? target.nextSibling : target
     );
-
-    saveAllData();
 });
 
 
@@ -1169,64 +1009,11 @@ document.getElementById('gameCanvas') && document.getElementById('gameCanvas').a
 }, {passive: false});
 
 
-
-// ============ INDEXED DB ============
-const DB_NAME = 'damdaiksunDB';
-const STORE_NAME = 'appData';
-
-function openDB() {
-    return new Promise((resolve, reject) => {
-        const request = indexedDB.open(DB_NAME, 1);
-
-        request.onupgradeneeded = function(e) {
-            const db = e.target.result;
-
-            if (!db.objectStoreNames.contains(STORE_NAME)) {
-                db.createObjectStore(STORE_NAME);
-            }
-        };
-
-        request.onsuccess = () => resolve(request.result);
-        request.onerror = () => reject(request.error);
-    });
-}
-
-async function dbSet(key, value) {
-    const db = await openDB();
-
-    return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readwrite');
-        const store = tx.objectStore(STORE_NAME);
-
-        store.put(value, key);
-
-        tx.oncomplete = () => resolve();
-        tx.onerror = () => reject(tx.error);
-    });
-}
-
-async function dbGet(key) {
-    const db = await openDB();
-
-    return new Promise((resolve, reject) => {
-        const tx = db.transaction(STORE_NAME, 'readonly');
-        const store = tx.objectStore(STORE_NAME);
-
-        const req = store.get(key);
-
-        req.onsuccess = () => resolve(req.result);
-        req.onerror = () => reject(req.error);
-    });
-}
-
-
 // ============ LOCAL STORAGE ============
-async function saveAllData() {
+function saveAllData() {
     const recipeHTML = document.getElementById('recipe-list').innerHTML;
     const actionsHTML = document.getElementById('actions-list').innerHTML;
-
-    const aboutImg = document.querySelector('#about-photo-area img');
-    const aboutPhotoSrc = aboutImg ? aboutImg.src : '';
+    const aboutPhoto = document.getElementById('about-photo-area').innerHTML;
 
     const data = {
         totalCO2,
@@ -1234,34 +1021,23 @@ async function saveAllData() {
         selectedType,
         recipeHTML,
         actionsHTML,
-        aboutPhotoSrc,
-        journeyPhotos: {}
+        aboutPhoto,
+        journeyPhotosHTML: {},
     };
 
     document.querySelectorAll('[id^="photos-"]').forEach(el => {
-        const idx = el.id.replace('photos-', '');
-
-        const images = [];
-        el.querySelectorAll('.journey-photo').forEach(img => {
-            images.push(img.src);
-        });
-
-        data.journeyPhotos[idx] = images;
+        data.journeyPhotosHTML[el.id] = el.innerHTML;
     });
 
-    try {
-        await dbSet('damdaiksun_data', data);
-        console.log('자동 저장 완료');
-    } catch (e) {
-        console.error('저장 실패', e);
-    }
+    localStorage.setItem('damdaiksun_data', JSON.stringify(data));
 }
 
-async function loadAllData() {
-    try {
-        const data = await dbGet('damdaiksun_data');
+function loadAllData() {
+    const raw = localStorage.getItem('damdaiksun_data');
+    if (!raw) return;
 
-        if (!data) return;
+    try {
+        const data = JSON.parse(raw);
 
         totalCO2 = data.totalCO2 || 0;
         recipeCount = data.recipeCount || 0;
@@ -1275,64 +1051,16 @@ async function loadAllData() {
             document.getElementById('actions-list').innerHTML = data.actionsHTML;
         }
 
-        // 대표 사진 복구
-        if (data.aboutPhotoSrc) {
-            const area = document.getElementById('about-photo-area');
-
-            area.innerHTML = `
-                <button class="delete-photo-btn" onclick="event.stopPropagation(); removeAboutPhoto()">✕</button>
-                <img src="${data.aboutPhotoSrc}" style="width:100%;height:100%;object-fit:cover;" onclick="document.getElementById('about-file').click()">
-            `;
-
-            const input = document.createElement('input');
-            input.type = 'file';
-            input.id = 'about-file';
-            input.accept = 'image/*';
-            input.style.display = 'none';
-            input.onchange = function() { handleAboutPhoto(this); };
-
-            area.appendChild(input);
+        if (data.aboutPhoto) {
+            document.getElementById('about-photo-area').innerHTML = data.aboutPhoto;
         }
 
         updateForest();
 
-        // 갤러리 사진 복구
-        if (data.journeyPhotos) {
-            Object.entries(data.journeyPhotos).forEach(([idx, images]) => {
-                const grid = document.getElementById('photos-' + idx);
-
-                if (!grid) return;
-
-                grid.innerHTML = `
-                    <div class="add-photo-btn" onclick="document.getElementById('jf-${idx}').click()">
-                        <svg viewBox="0 0 24 24" fill="currentColor">
-                            <path d="M19 13h-6v6h-2v-6H5v-2h6V5h2v6h6v2z"/>
-                        </svg>
-                    </div>
-                    <input type="file" id="jf-${idx}" accept="image/*" multiple style="display:none" onchange="addJourneyPhotos(${idx}, this)">
-                `;
-
-                const addBtn = grid.querySelector('.add-photo-btn');
-
-                images.forEach(src => {
-                    const wrap = document.createElement('div');
-                    wrap.className = 'journey-photo-wrap';
-                    wrap.draggable = true;
-
-                    wrap.innerHTML = `
-                        <img src="${src}" class="journey-photo">
-                        <button class="delete-photo-btn">✕</button>
-                    `;
-
-                    wrap.querySelector('.delete-photo-btn').onclick = function(e) {
-                        e.stopPropagation();
-                        e.preventDefault();
-                        wrap.remove();
-                        saveAllData();
-                    };
-
-                    grid.insertBefore(wrap, addBtn);
-                });
+        if (data.journeyPhotosHTML) {
+            Object.entries(data.journeyPhotosHTML).forEach(([id, html]) => {
+                const el = document.getElementById(id);
+                if (el) el.innerHTML = html;
             });
         }
 
@@ -1348,8 +1076,7 @@ function manualSave() {
 
     const toast = document.createElement('div');
     toast.className = 'save-toast';
-    const now = new Date();
-    toast.textContent = `🍞 저장 완료! ${now.getHours()}:${String(now.getMinutes()).padStart(2,'0')}`;
+    toast.textContent = '🍞 저장 완료!';
 
     document.body.appendChild(toast);
 
@@ -1358,59 +1085,21 @@ function manualSave() {
     }, 2000);
 }
 
-
-// ============ AUTO SAVE ============
-document.addEventListener('input', function(e) {
-    const target = e.target;
-
-    if (
-        target.matches('input') ||
-        target.matches('textarea')
-    ) {
-        saveAllData();
-    }
-});
-
-// 강제 자동 저장
-setInterval(() => {
-    saveAllData();
-}, 3000);
-
-// 페이지 이동 전 저장
-window.addEventListener('beforeunload', () => {
-    saveAllData();
-});
-
 // ============ INIT ============
-async async function initializeApp() {
+async function initializeApp() {
     if (window.__APP_INITIALIZED__) return;
     window.__APP_INITIALIZED__ = true;
-
     buildJourney();
-
-    // 회기 사진 먼저 로드
-    if (typeof loadJourneyPhotosFromSupabase === 'function') {
-        await loadJourneyPhotosFromSupabase();
-        await loadAboutPhotoFromSupabase();
-    }
-
-    // 기존 데이터 로드
-    if (typeof loadAllData === 'function') {
-        await loadAllData();
-    }
-
+    if (typeof loadActionsFromSupabase === 'function') await loadActionsFromSupabase();
+    if (typeof loadAboutPhotoFromSupabase === 'function') await loadAboutPhotoFromSupabase();
+    if (typeof loadJourneyPhotosFromSupabase === 'function') await loadJourneyPhotosFromSupabase();
+    await loadAllData();
     updateForest();
-
     document.getElementById('loading').style.display = 'none';
     document.getElementById('app').style.display = 'block';
 }
-
 window.addEventListener('load', initializeApp);
-
-// Fallback if load event already fired
-if (document.readyState === 'complete') {
-    initializeApp();
-}
+if (document.readyState === 'complete') { initializeApp(); }
 </script>
 
 <style>
@@ -1419,241 +1108,120 @@ if (document.readyState === 'complete') {
 
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <script>
 const SUPABASE_URL = 'https://ftqytarohkcovvroscuo.supabase.co';
 const SUPABASE_KEY = 'sb_publishable_zsfWibg9kNq2ZVdNYOO6bg_P1pRZ-0Q';
+const supabaseClient = supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
-const supabaseClient = supabase.createClient(
-    SUPABASE_URL,
-    SUPABASE_KEY
-);
-
-console.log('Supabase 연결 완료');
-
+// ── Actions ──
 async function saveActionToSupabase(data) {
-    const { error } = await supabaseClient
-        .from('actions')
-        .insert([data]);
-
-    if(error) {
-        console.error('Supabase 저장 실패:', error);
-    }
+    const { error } = await supabaseClient.from('actions').insert([data]);
+    if (error) console.error('Supabase 저장 실패:', error);
 }
 
 async function loadActionsFromSupabase() {
     const { data, error } = await supabaseClient
-        .from('actions')
-        .select('*')
-        .order('created_at', { ascending:false });
-
-    if(error) {
-        console.error('불러오기 실패:', error);
-        return;
-    }
-
+        .from('actions').select('*').order('created_at', { ascending: false });
+    if (error) { console.error('불러오기 실패:', error); return; }
     const list = document.getElementById('actions-list');
-
-    if(!list) return;
-
+    if (!list) return;
     list.innerHTML = '';
-
-    // 기존 사진 초기화
-    
-    document.querySelectorAll('[id^="photos-"]').forEach(grid => {
-        grid.querySelectorAll('.journey-photo-wrap').forEach(el => el.remove());
-    });
-    
-
     data.forEach(item => {
         const card = document.createElement('div');
         card.className = 'action-card';
-
         card.innerHTML = `
             <div class="action-card-img" style="position:relative;">
+                <button class="delete-photo-btn" onclick="deleteActionCardById(this, '${item.id}')">✕</button>
                 ${item.image ? `<img src="${item.image}" alt="action">` : ''}
             </div>
-
-            <div class="action-card-content">
-                <div class="action-card-author">${item.author || '익명'}</div>
-                <div class="action-card-type">${item.type || ''}</div>
-                <div class="action-card-text">${item.comment || ''}</div>
-            </div>
+            <p class="action-card-type">${item.type || ''}</p>
+            <p class="action-card-comment">${item.comment || ''}</p>
+            <p style="font-size:0.85rem;color:#94a3b8;margin-top:4px;font-weight:700;">— ${item.author || ''}</p>
         `;
-
         list.appendChild(card);
     });
-
-    if(typeof updateForest === 'function') {
-        updateForest();
-    }
+    updateForest();
 }
 
-supabaseClient
-    .channel('actions-channel')
-    .on(
-        'postgres_changes',
-        {
-            event: '*',
-            schema: 'public',
-            table: 'actions'
-        },
-        () => {
-            loadActionsFromSupabase();
-    loadJourneyPhotosFromSupabase();
-        }
-    )
-    .subscribe();
+async function deleteActionCardById(btn, id) {
+    const card = btn.closest('.action-card');
+    card.remove();
+    await supabaseClient.from('actions').delete().eq('id', id);
+    updateForest();
+}
 
-
-// ===== SUPABASE JOURNEY PHOTO SHARE (BASE64 DB VERSION) =====
-
-// ===== ABOUT PHOTO SHARE =====
-
+// ── About Photo ──
 async function saveAboutPhotoToSupabase(base64Data) {
-
-    // 기존 삭제
-    await supabaseClient
-        .from('about_photo')
-        .delete()
-        .neq('id', 0);
-
-    const { error } = await supabaseClient
-        .from('about_photo')
-        .insert([{
-            image_data: base64Data,
-            created_at: new Date().toISOString()
-        }]);
-
-    if(error) {
-        console.error('about photo save failed', error);
-    }
+    await supabaseClient.from('about_photo').delete().neq('id', 0);
+    const { error } = await supabaseClient.from('about_photo')
+        .insert([{ image_data: base64Data, created_at: new Date().toISOString() }]);
+    if (error) console.error('about photo save failed', error);
 }
 
 async function loadAboutPhotoFromSupabase() {
-
     const { data, error } = await supabaseClient
-        .from('about_photo')
-        .select('*')
-        .order('created_at', { ascending:false })
-        .limit(1);
-
-    if(error || !data || !data.length) return;
-
-    const photo = data[0];
-
+        .from('about_photo').select('*').order('created_at', { ascending: false }).limit(1);
+    if (error || !data || !data.length) return;
     const area = document.getElementById('about-photo-area');
-
-    if(!area) return;
-
+    if (!area) return;
     area.innerHTML = `
         <button class="delete-photo-btn" onclick="event.stopPropagation(); removeAboutPhoto()">✕</button>
-        <img src="${photo.image_data}" style="width:100%;height:100%;object-fit:cover;" onclick="document.getElementById('about-file').click()">
+        <img src="${data[0].image_data}" style="width:100%;height:100%;object-fit:cover;" onclick="document.getElementById('about-file').click()">
     `;
-
     const input = document.createElement('input');
-    input.type = 'file';
-    input.id = 'about-file';
-    input.accept = 'image/*';
+    input.type = 'file'; input.id = 'about-file'; input.accept = 'image/*';
     input.style.display = 'none';
     input.onchange = function() { handleAboutPhoto(this); };
-
     area.appendChild(input);
 }
 
-
-
-async function uploadJourneyPhotoToSupabase(base64Data, idx) {
-
-    const { error } = await supabaseClient
-        .from('journey_photos')
-        .insert([{
-            journey_idx: idx,
-            image_data: base64Data,
-            created_at: new Date().toISOString()
-        }]);
-
-    if(error) {
-        console.error('journey photo save failed', error);
-        alert('회기 사진 저장 실패');
-        return false;
-    }
-
-    console.log('회기 사진 저장 성공');
-    return true;
-}
-
-
-
-
+// ── Journey Photos ──
 async function loadJourneyPhotosFromSupabase() {
-
     const { data, error } = await supabaseClient
-        .from('journey_photos')
-        .select('*')
-        .order('created_at', { ascending:true });
+        .from('journey_photos').select('*').order('created_at', { ascending: true });
+    if (error) { console.error('journey load failed', error); return; }
 
-    if(error) {
-        console.error('journey load failed', error);
-        return;
-    }
-
-    // 기존 회기 사진 전체 제거
+    // 기존 사진 전체 제거
     document.querySelectorAll('.journey-photo-wrap').forEach(el => el.remove());
 
-    // 중복 방지용
     const renderedIds = new Set();
-
     data.forEach(item => {
-
-        if(renderedIds.has(item.id)) return;
-
+        if (renderedIds.has(item.id)) return;
         renderedIds.add(item.id);
-
         const grid = document.getElementById('photos-' + item.journey_idx);
-
-        if(!grid) return;
-
+        if (!grid) return;
         const addBtn = grid.querySelector('.add-photo-btn');
-
         const wrap = document.createElement('div');
-
         wrap.className = 'journey-photo-wrap';
-
         wrap.draggable = true;
-
         wrap.dataset.photoId = item.id;
-
         wrap.innerHTML = `
             <img src="${item.image_data}" class="journey-photo">
             <button class="delete-photo-btn">✕</button>
         `;
-
         wrap.querySelector('.delete-photo-btn').onclick = async function(e) {
-
-            e.stopPropagation();
-            e.preventDefault();
-
+            e.stopPropagation(); e.preventDefault();
             wrap.remove();
-
-            await supabaseClient
-                .from('journey_photos')
-                .delete()
-                .eq('id', item.id);
+            await supabaseClient.from('journey_photos').delete().eq('id', item.id);
         };
-
         grid.insertBefore(wrap, addBtn);
     });
 }
 
+// ── Realtime (채널 분리) ──
+supabaseClient
+    .channel('actions-rt')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'actions' }, () => {
+        loadActionsFromSupabase();
+    })
+    .subscribe();
 
-
-
-window.addEventListener('load', () => {
-    loadActionsFromSupabase();
-    loadJourneyPhotosFromSupabase();
-});
+supabaseClient
+    .channel('journey-rt')
+    .on('postgres_changes', { event: '*', schema: 'public', table: 'journey_photos' }, () => {
+        loadJourneyPhotosFromSupabase();
+    })
+    .subscribe();
 </script>
 </body>
-
 </html>
