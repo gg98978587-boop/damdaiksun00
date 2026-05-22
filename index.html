@@ -784,33 +784,21 @@ function buildJourney() {
     });
 }
 
-function addJourneyPhotos(idx, input) {
+async function addJourneyPhotos(idx, input) {
     const files = Array.from(input.files);
-    const grid = document.getElementById('photos-' + idx);
-    const addBtn = grid.querySelector('.add-photo-btn');
-    files.forEach(file => {
-        const reader = new FileReader();
-        reader.onload = function(e) {
-            const wrap = document.createElement('div');
-            wrap.className = 'journey-photo-wrap'; wrap.draggable = true;
-
-            const img = document.createElement('img');
-            img.src = e.target.result;
-            img.className = 'journey-photo';
-
-            const del = document.createElement('button');
-            del.className = 'delete-photo-btn';
-            del.innerText = '✕';
-            del.onclick = () => wrap.remove();
-
-            wrap.appendChild(img);
-            wrap.appendChild(del);
-
-            grid.insertBefore(wrap, addBtn);
-            // manual save
-        };
-        reader.readAsDataURL(file);
-    });
+    for (const file of files) {
+        const base64Data = await new Promise(resolve => {
+            const r = new FileReader();
+            r.onload = e => resolve(e.target.result);
+            r.readAsDataURL(file);
+        });
+        const { error } = await supabaseClient
+            .from('journey_photos')
+            .insert([{ journey_idx: idx, image_data: base64Data, created_at: new Date().toISOString() }]);
+        if (error) { console.error(error); alert('회기 사진 저장 실패'); return; }
+    }
+    // 업로드 완료 후 한 번만 리렌더 → 중복/누락 없음
+    await loadJourneyPhotosFromSupabase();
 }
 
 
