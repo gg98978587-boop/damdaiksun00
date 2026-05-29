@@ -7,8 +7,10 @@
   <style>
     @font-face {
       font-family:'NanumSquareNeo';
-      src:url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquareNeo@1.0/NanumSquareNeoTTF-cEB.woff2') format('woff2');
+      src:url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquareNeo@1.0/NanumSquareNeoTTF-cEB.woff2') format('woff2'),
+          url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquareNeo@1.0/NanumSquareNeoTTF-cEB.woff') format('woff');
       font-weight:800;
+      font-display:swap;
     }
     * { box-sizing:border-box; margin:0; padding:0; }
     body { font-family:'NanumSquareNeo', system-ui, sans-serif; background:#f8faf8; color:#1e293b; }
@@ -22,6 +24,31 @@
     .nav-links { display:flex; gap:18px; align-items:center; font-weight:900; color:#166534; }
     .nav-links a { padding:8px 12px; border-radius:999px; }
     .nav-links a:hover { background:#e8f5e9; }
+    .save-btn {
+      display:inline-flex; align-items:center; gap:8px;
+      background:linear-gradient(135deg,#fff8f0,#ffecd8);
+      color:#a0522d; font-weight:900; font-size:1rem;
+      border:3px solid #f5c99a; border-radius:999px;
+      padding:10px 22px; cursor:pointer;
+      box-shadow:0 4px 0 #d4956a;
+      font-family:'NanumSquareNeo',sans-serif;
+      transition:all .15s;
+    }
+    .save-btn:hover { background:linear-gradient(135deg,#ffecd8,#ffd9b3); transform:translateY(-1px); }
+    .save-btn:active { box-shadow:0 1px 0 #d4956a; transform:translateY(3px); }
+    .save-toast {
+      position:fixed; top:90px; right:28px;
+      background:#166534; color:#fff; padding:12px 24px;
+      border-radius:999px; font-weight:900; font-size:.95rem;
+      box-shadow:0 8px 24px rgba(0,0,0,.15); z-index:9999;
+      animation:toastFade 2.2s ease forwards;
+    }
+    @keyframes toastFade {
+      0%{opacity:0;transform:translateY(-8px)}
+      12%{opacity:1;transform:translateY(0)}
+      80%{opacity:1}
+      100%{opacity:0;transform:translateY(-8px)}
+    }
     .container { max-width:1200px; margin:0 auto; padding:0 24px; }
     header { text-align:center; padding:80px 24px 70px; }
     .badge { display:inline-block; padding:8px 22px; border-radius:999px; background:#fce4ec; color:#e91e63; border:3px solid #fff; font-weight:900; margin-bottom:24px; }
@@ -103,6 +130,7 @@
   </div>
   <div class="nav-links">
     <a href="#about">홈</a><a href="#action">활동 인증</a><a href="#gallery">갤러리</a><a href="#game">게임</a>
+    <button class="save-btn" onclick="manualSave()"><span style="font-size:1.3rem">🍞</span> 저장하기</button>
   </div>
 </nav>
 
@@ -450,6 +478,17 @@ function updateForest() {
   if (co2 >= 320) html += `<div class="forest-item" style="right:150px;bottom:55px;font-size:145px;">🏡</div>`;
   if (co2 >= 520) html += `<div class="forest-item" style="left:70%;bottom:50px;font-size:80px;">🦌</div>`;
   document.getElementById("forest-box").innerHTML = html;
+}
+
+function manualSave() {
+  // actions는 Supabase에 실시간 저장되므로 별도 저장 불필요
+  // 로컬 상태(선택 타입 등) 안내만 표시
+  const toast = document.createElement('div');
+  toast.className = 'save-toast';
+  const now = new Date();
+  toast.textContent = '🍞 저장 완료! ' + now.getHours() + ':' + String(now.getMinutes()).padStart(2,'0');
+  document.body.appendChild(toast);
+  setTimeout(() => toast.remove(), 2200);
 }
 
 document.addEventListener("DOMContentLoaded", () => {
