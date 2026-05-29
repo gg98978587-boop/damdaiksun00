@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>담다익선: AI와 함께하는 친환경 베이킹</title>
   <style>
+    @import url('https://fonts.googleapis.com/css2?family=Nanum+Gothic:wght@700;800&display=swap');
     @font-face {
       font-family:'NanumSquareNeo';
       src:url('https://cdn.jsdelivr.net/gh/moonspam/NanumSquareNeo@1.0/NanumSquareNeoTTF-cEB.woff2') format('woff2'),
@@ -13,7 +14,7 @@
       font-display:swap;
     }
     * { box-sizing:border-box; margin:0; padding:0; }
-    body { font-family:'NanumSquareNeo', system-ui, sans-serif; background:#f8faf8; color:#1e293b; }
+    body { font-family:'NanumSquareNeo','Nanum Gothic',system-ui,sans-serif; background:#f8faf8; color:#1e293b; font-weight:800; }
     a { color:inherit; text-decoration:none; }
     nav { position:sticky; top:0; z-index:20; background:rgba(255,255,255,.94); backdrop-filter:blur(12px); box-shadow:0 2px 18px rgba(0,0,0,.06); padding:18px 28px; display:flex; justify-content:space-between; align-items:center; gap:20px; }
     .brand { display:flex; align-items:center; gap:14px; }
@@ -307,13 +308,120 @@
 <section id="game">
   <div class="container game-wrap">
     <div class="game-box">
-      <h2 style="color:#14532d;margin-bottom:12px;">탄소 괴물 격파하기!</h2>
-      <p>게임 영역은 추후 안정화 후 다시 연결할 수 있습니다.</p>
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px;flex-wrap:wrap;gap:12px;">
+        <div>
+          <h2 style="color:#14532d;font-size:1.8rem;">탄소 괴물 격파하기!</h2>
+          <p style="color:#64748b;font-size:.95rem;margin-top:4px;">괴물들을 모두 없애고 지구를 구해주세요! 🌍</p>
+        </div>
+        <div style="display:flex;gap:10px;">
+          <div style="background:#f0fdf4;border:2px solid #e8f5e9;border-radius:999px;padding:6px 18px;font-size:.85rem;font-weight:900;color:#64748b;">ROUND <span id="g-round" style="color:#14532d;font-size:1.1rem;font-weight:900;">1</span></div>
+          <div style="background:#f0fdf4;border:2px solid #e8f5e9;border-radius:999px;padding:6px 18px;font-size:.85rem;font-weight:900;color:#64748b;">SCORE <span id="g-score" style="color:#14532d;font-size:1.1rem;font-weight:900;">0</span></div>
+        </div>
+      </div>
+      <div style="position:relative;width:100%;">
+        <canvas id="gameCanvas" width="800" height="420" style="width:100%;border-radius:20px;background:linear-gradient(to bottom,#eff6ff,#f0fdf4);border:5px solid #e8f5e9;display:block;"></canvas>
+        <div id="game-overlay" style="position:absolute;inset:0;display:flex;align-items:center;justify-content:center;background:rgba(0,0,0,.08);backdrop-filter:blur(4px);border-radius:20px;z-index:10;">
+          <div style="background:#fff;padding:32px 40px;border-radius:36px;box-shadow:0 16px 48px rgba(0,0,0,.13);border:3px solid #dcfce7;text-align:center;">
+            <div style="font-size:2.5rem;margin-bottom:12px;">✨</div>
+            <h3 style="font-size:1.5rem;color:#1e293b;margin-bottom:8px;">READY?</h3>
+            <p style="color:#64748b;font-weight:900;margin-bottom:20px;">라운드 1 시작!</p>
+            <button onclick="startGame()" style="background:#4caf50;color:#fff;border:none;border-radius:20px;padding:14px 36px;font-size:1rem;font-weight:900;cursor:pointer;box-shadow:0 5px 0 #2d5a27;font-family:inherit;">게임 시작!</button>
+          </div>
+        </div>
+      </div>
+      <div style="margin-top:18px;text-align:center;font-size:.72rem;font-weight:900;color:#cbd5e1;text-transform:uppercase;letter-spacing:3px;">— Brick Breaker: Eco Edition —</div>
     </div>
   </div>
 </section>
 
 <footer>© 2026 서산문화복지센터 청소년수련관 제과제빵 동아리 오브니 담다익선 프로젝트.</footer>
+
+
+<script>
+// ── GAME ──
+const CW=800,CH=420,PW=120,PH=15,BR=8;
+const BCOLS=8,BROWS=3,BW=75,BH=35,BPAD=12,BTOP=60,BLEFT=55;
+const MONSTERS=['🌋','🏭','🛢️','💨','🌫️','🔥','💀','👹','👺','👾'];
+const TRIVIA=["우리나라 1인당 연간 플라스틱 소비량은 세계 최고 수준이에요! 🥤","종이컵 한 개가 분해되는 데는 약 20년이 걸린대요. ⏳","안 쓰는 가전제품 플러그만 뽑아도 대기전력을 10%나 줄일 수 있어요! 🔌","양치할 때 물컵을 사용하면 물 5리터를 아낄 수 있답니다. 🚰","비닐봉지 대신 장바구니를 사용하면 연간 13.6kg의 CO2를 줄일 수 있어요. 🛍️","실내 온도를 1도만 낮춰도 연간 231kg의 이산화탄소를 줄일 수 있어요! 🌡️","재활용 종이 1톤을 사용하면 나무 17그루를 살릴 수 있답니다. 🌳"];
+let gs={active:false,score:0,round:1,paddleX:(CW-PW)/2,ball:{x:CW/2,y:CH-30,dx:8,dy:-8},bricks:[],right:false,left:false};
+let rafId=null;
+
+function showOverlay(html){
+  const o=document.getElementById('game-overlay');
+  o.innerHTML='<div style="background:#fff;padding:32px 40px;border-radius:36px;box-shadow:0 16px 48px rgba(0,0,0,.13);border:3px solid #dcfce7;text-align:center;max-width:380px;">'+html+'</div>';
+  o.style.display='flex';
+}
+function hideOverlay(){document.getElementById('game-overlay').style.display='none';}
+
+function initBricks(){
+  gs.bricks=[];
+  for(let c=0;c<BCOLS;c++)for(let r=0;r<BROWS;r++)
+    gs.bricks.push({x:c*(BW+BPAD)+BLEFT,y:r*(BH+BPAD)+BTOP,on:1,emoji:MONSTERS[Math.floor(Math.random()*MONSTERS.length)]});
+}
+
+function startGame(isNext){
+  if(!isNext){gs.score=0;gs.round=1;}
+  document.getElementById('g-score').textContent=gs.score;
+  document.getElementById('g-round').textContent=gs.round;
+  hideOverlay();
+  const spd=8+(gs.round-1)*2;
+  gs.paddleX=(CW-PW)/2;
+  gs.ball={x:CW/2,y:CH-30,dx:spd,dy:-spd};
+  initBricks(); gs.active=true;
+  if(rafId)cancelAnimationFrame(rafId);
+  loop();
+}
+
+function loop(){
+  const canvas=document.getElementById('gameCanvas');
+  const ctx=canvas.getContext('2d');
+  ctx.clearRect(0,0,CW,CH);
+  const{ball,paddleX,bricks}=gs;
+  bricks.forEach(b=>{if(b.on){ctx.font='20px serif';ctx.textAlign='center';ctx.fillText(b.emoji,b.x+BW/2,b.y+BH/2+7);}});
+  ctx.beginPath();ctx.arc(ball.x,ball.y,BR,0,Math.PI*2);ctx.fillStyle='#4caf50';ctx.fill();
+  ctx.beginPath();ctx.roundRect(paddleX,CH-PH-10,PW,PH,8);ctx.fillStyle='#2d5a27';ctx.fill();
+  let allClear=true;
+  bricks.forEach(b=>{
+    if(b.on){allClear=false;
+      if(ball.x>b.x&&ball.x<b.x+BW&&ball.y>b.y&&ball.y<b.y+BH){ball.dy=-ball.dy;b.on=0;gs.score+=10;document.getElementById('g-score').textContent=gs.score;}
+    }
+  });
+  if(allClear){
+    gs.active=false;gs.round++;document.getElementById('g-round').textContent=gs.round;
+    const tv=TRIVIA[Math.floor(Math.random()*TRIVIA.length)];
+    showOverlay('<div style="font-size:2rem;margin-bottom:12px;">💡</div><h3 style="font-size:1.4rem;color:#1e293b;margin-bottom:10px;">그거 아시나요?</h3><div style="background:#fefce8;padding:14px;border-radius:14px;border:2px solid #fef9c3;margin-bottom:18px;font-size:.95rem;font-weight:900;line-height:1.6;color:#1e293b;">'+tv+'</div><button onclick="startGame(true)" style="background:#4caf50;color:#fff;border:none;border-radius:20px;padding:14px 36px;font-size:1rem;font-weight:900;cursor:pointer;box-shadow:0 5px 0 #2d5a27;font-family:inherit;">다음 라운드 도전! →</button>');
+    return;
+  }
+  if(ball.x+ball.dx>CW-BR||ball.x+ball.dx<BR)ball.dx=-ball.dx;
+  if(ball.y+ball.dy<BR)ball.dy=-ball.dy;
+  else if(ball.y+ball.dy>CH-BR-10){
+    if(ball.x>paddleX&&ball.x<paddleX+PW){ball.dy=-ball.dy;ball.dx=((ball.x-(paddleX+PW/2))/(PW/2))*5;}
+    else{gs.active=false;showOverlay('<div style="font-size:2rem;margin-bottom:12px;">🏆</div><h3 style="font-size:1.5rem;color:#1e293b;margin-bottom:8px;">GAME OVER</h3><p style="color:#64748b;font-weight:900;margin-bottom:20px;">최종 점수: '+gs.score+'점</p><button onclick="startGame()" style="background:#4caf50;color:#fff;border:none;border-radius:20px;padding:14px 36px;font-size:1rem;font-weight:900;cursor:pointer;box-shadow:0 5px 0 #2d5a27;font-family:inherit;">다시 도전하기</button>');return;}
+  }
+  if(gs.right&&gs.paddleX<CW-PW)gs.paddleX+=7;
+  if(gs.left&&gs.paddleX>0)gs.paddleX-=7;
+  ball.x+=ball.dx;ball.y+=ball.dy;
+  rafId=requestAnimationFrame(loop);
+}
+
+document.addEventListener('keydown',e=>{if(e.key==='ArrowRight')gs.right=true;if(e.key==='ArrowLeft')gs.left=true;});
+document.addEventListener('keyup',e=>{if(e.key==='ArrowRight')gs.right=false;if(e.key==='ArrowLeft')gs.left=false;});
+document.addEventListener('mousemove',e=>{
+  const canvas=document.getElementById('gameCanvas');
+  if(!canvas)return;
+  const rect=canvas.getBoundingClientRect();
+  const relX=(e.clientX-rect.left)*(CW/rect.width);
+  if(relX>0&&relX<CW)gs.paddleX=relX-PW/2;
+});
+document.getElementById('gameCanvas').addEventListener('touchmove',e=>{
+  e.preventDefault();
+  const touch=e.touches[0];
+  const canvas=document.getElementById('gameCanvas');
+  const rect=canvas.getBoundingClientRect();
+  const relX=(touch.clientX-rect.left)*(CW/rect.width);
+  if(relX>0&&relX<CW)gs.paddleX=relX-PW/2;
+},{passive:false});
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <script>
