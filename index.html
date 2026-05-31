@@ -823,7 +823,7 @@ function manualSave() {
   setTimeout(() => toast.remove(), 2200);
 }
 
-document.addEventListener("DOMContentLoaded", () => {
+document.addEventListener("DOMContentLoaded", async () => {
   updateForest();
   loadActions();
   await loadManuals();   // 초기 1회 로드
