@@ -470,6 +470,7 @@ function buildManualCardHTML(topic, prompt, answer, feedback, step) {
       <span class="manual-preview">"${preview}"</span>
       <div class="manual-actions">
         <button class="manual-copy-btn">📋 복사</button>
+        <button class="manual-del-btn" style="background:none;border:none;font-size:1rem;cursor:pointer;color:#94a3b8;padding:0 2px;" title="삭제">🗑️</button>
         <button class="manual-toggle">▼</button>
       </div>
     </div>
@@ -508,42 +509,58 @@ function toggleManualForm() {
   const f = document.getElementById('manual-form');
   f.style.display = f.style.display === 'none' ? 'block' : 'none';
 }
-function saveManual() {
+async function saveManual() {
   const topic    = document.getElementById('mf-topic').value.trim();
   const prompt   = document.getElementById('mf-prompt').value.trim();
   const answer   = document.getElementById('mf-answer').value.trim();
   const feedback = document.getElementById('mf-feedback').value.trim();
   if (!topic || !prompt) { alert('주제와 프롬프트를 입력해주세요!'); return; }
+
+  if (!supabaseClient) { alert('Supabase 연결 안됨'); return; }
+  const { data, error } = await supabaseClient
+    .from('manuals')
+    .insert([{ topic, prompt, answer, feedback, created_at: new Date().toISOString() }])
+    .select().single();
+  if (error) { console.error('매뉴얼 저장 실패:', error); alert('저장 실패: ' + error.message); return; }
+
   manualCount++;
-  const card = document.createElement('div');
-  card.className = 'manual-card';
-  card.innerHTML = buildManualCardHTML(topic, prompt, answer, feedback, manualCount);
-  card.querySelector('.manual-toggle').addEventListener('click', () => toggleManual(card));
-  card.querySelector('.manual-header').addEventListener('click', (e) => { if(!e.target.classList.contains('manual-copy-btn')) toggleManual(card); });
-  card.querySelector('.manual-copy-btn').addEventListener('click', (e) => { e.stopPropagation(); copyManual(card, topic, prompt, answer, feedback); });
-  document.getElementById('manual-list').prepend(card);
-  // 로컬 저장
-  const saved = JSON.parse(localStorage.getItem('manuals') || '[]');
-  saved.unshift({ topic, prompt, answer, feedback });
-  localStorage.setItem('manuals', JSON.stringify(saved));
+  renderManualCard({ ...data }, true);
+
   document.getElementById('mf-topic').value = '';
   document.getElementById('mf-prompt').value = '';
   document.getElementById('mf-answer').value = '';
   document.getElementById('mf-feedback').value = '';
   toggleManualForm();
 }
-function loadManuals() {
-  const saved = JSON.parse(localStorage.getItem('manuals') || '[]');
-  saved.forEach(m => {
-    manualCount++;
-    const card = document.createElement('div');
-    card.className = 'manual-card';
-    card.innerHTML = buildManualCardHTML(m.topic, m.prompt, m.answer, m.feedback, manualCount);
-    card.querySelector('.manual-toggle').addEventListener('click', () => toggleManual(card));
-    card.querySelector('.manual-header').addEventListener('click', (e) => { if(!e.target.classList.contains('manual-copy-btn')) toggleManual(card); });
-    card.querySelector('.manual-copy-btn').addEventListener('click', (e) => { e.stopPropagation(); copyManual(card, m.topic, m.prompt, m.answer, m.feedback); });
-    document.getElementById('manual-list').appendChild(card);
+async function loadManuals() {
+  if (!supabaseClient) return;
+  const { data, error } = await supabaseClient
+    .from('manuals')
+    .select('*')
+    .order('created_at', { ascending: true });
+  if (error) { console.error('매뉴얼 불러오기 실패:', error); return; }
+  manualCount = 0;
+  document.getElementById('manual-list').innerHTML = '';
+  data.forEach(m => renderManualCard(m, false));
+}
+
+function renderManualCard(m, prepend) {
+  manualCount++;
+  const card = document.createElement('div');
+  card.className = 'manual-card';
+  card.dataset.id = m.id || '';
+  card.innerHTML = buildManualCardHTML(m.topic, m.prompt, m.answer, m.feedback, manualCount);
+  card.querySelector('.manual-toggle').addEventListener('click', () => toggleManual(card));
+  card.querySelector('.manual-header').addEventListener('click', (e) => { if(!e.target.classList.contains('manual-copy-btn') && !e.target.classList.contains('manual-del-btn')) toggleManual(card); });
+  card.querySelector('.manual-copy-btn').addEventListener('click', (e) => { e.stopPropagation(); copyManual(card, m.topic, m.prompt, m.answer, m.feedback); });
+  card.querySelector('.manual-del-btn').addEventListener('click', async (e) => {
+    e.stopPropagation();
+    if (!confirm('이 매뉴얼을 삭제할까요?')) return;
+    card.remove();
+    if (m.id && supabaseClient) await supabaseClient.from('manuals').delete().eq('id', m.id);
   });
+  const list = document.getElementById('manual-list');
+  if (prepend) list.prepend(card); else list.appendChild(card);
 }
 // ── GAME ──
 const CW=800,CH=420,PW=120,PH=15,BR=8;
@@ -809,10 +826,23 @@ function manualSave() {
 document.addEventListener("DOMContentLoaded", () => {
   updateForest();
   loadActions();
-  loadManuals();   // 초기 1회 로드
+  await loadManuals();   // 초기 1회 로드
 
   if (supabaseClient) {
     // Realtime: 다른 기기/탭에서 추가/삭제 시 자동 반영 (본인 추가는 renderAction으로 즉시 반영)
+    supabaseClient.channel("manuals-rt")
+      .on("postgres_changes", { event:"INSERT", schema:"public", table:"manuals" }, payload => {
+        // 내가 추가한 건 이미 렌더됐으므로 중복 방지
+        if (!document.querySelector(`.manual-card[data-id="${payload.new.id}"]`)) {
+          renderManualCard(payload.new, true);
+        }
+      })
+      .on("postgres_changes", { event:"DELETE", schema:"public", table:"manuals" }, payload => {
+        const card = document.querySelector(`.manual-card[data-id="${payload.old.id}"]`);
+        if (card) card.remove();
+      })
+      .subscribe();
+
     supabaseClient.channel("actions-rt")
       .on("postgres_changes", { event:"INSERT", schema:"public", table:"actions" },
         payload => { renderAction(payload.new, true); updateForest(); })
