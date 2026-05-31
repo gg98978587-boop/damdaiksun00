@@ -79,8 +79,8 @@
     .action-form { max-width:620px; margin:0 auto 56px; background:#fff; color:#1e293b; padding:42px; border-radius:42px; box-shadow:0 20px 60px rgba(0,0,0,.2); }
     .input, textarea { width:100%; padding:15px 22px; border-radius:22px; border:3px solid #e8f5e9; font:inherit; font-weight:800; outline:none; }
     .form-row { margin-bottom:16px; }
-    .type-grid { display:grid; gap:10px; margin-bottom:16px; }
-    .type-btn { width:100%; padding:16px 20px; border:4px solid #f1f5f9; border-radius:24px; background:#fff; font:inherit; font-weight:900; text-align:left; cursor:pointer; }
+    .type-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+    .type-btn { width:100%; padding:16px 12px; border:4px solid #f1f5f9; border-radius:24px; background:#fff; font:inherit; font-weight:900; text-align:center; cursor:pointer; font-size:.95rem; }
     .type-btn.active { border-color:#4caf50; background:#f0fdf4; }
     .upload-area { min-height:140px; border:4px dashed #dbe5ef; border-radius:24px; display:flex; align-items:center; justify-content:center; position:relative; overflow:hidden; cursor:pointer; color:#94a3b8; font-weight:900; }
     .upload-area img { position:absolute; inset:0; width:100%; height:100%; object-fit:cover; }
@@ -222,6 +222,7 @@
         <button class="type-btn" data-id="30" onclick="selectType(this)">🥣 잔반 제로</button>
         <button class="type-btn" data-id="10" onclick="selectType(this)">🚌 대중교통 이용</button>
         <button class="type-btn" data-id="50" onclick="selectType(this)">🥬 친환경 베이킹</button>
+        <button class="type-btn" data-id="8" onclick="selectType(this)">🪜 계단 이용</button>
       </div>
       <div class="upload-area form-row" onclick="document.getElementById('act-file').click()">
         <span id="upload-placeholder">사진 업로드 📸</span>
@@ -245,17 +246,18 @@
           <span>5. 9.</span>
         </div>
         <div class="journey-photos">
-          <figure class="photo-tile"><img src="images/journey1_01.jpg" alt="&lt;1회기&gt; 오리엔테이션 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey1_02.jpg" alt="&lt;1회기&gt; 오리엔테이션 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey1_03.jpg" alt="&lt;1회기&gt; 오리엔테이션 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey1_04.jpg" alt="&lt;1회기&gt; 오리엔테이션 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey1_05.jpg" alt="&lt;1회기&gt; 오리엔테이션 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey1_06.jpg" alt="&lt;1회기&gt; 오리엔테이션 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey1_07.jpg" alt="&lt;1회기&gt; 오리엔테이션 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey1_08.jpg" alt="&lt;1회기&gt; 오리엔테이션 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey1_09.jpg" alt="&lt;1회기&gt; 오리엔테이션 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey1_10.jpg" alt="&lt;1회기&gt; 오리엔테이션 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey1_11.jpg" alt="&lt;1회기&gt; 오리엔테이션 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+          <figure class="photo-tile"><img src="images/journey1_01.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_02.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_03.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_04.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_05.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_06.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_07.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_08.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_09.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_10.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_11.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_12.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
         </div>
       </article>
     
@@ -265,17 +267,18 @@
           <span>5. 15.</span>
         </div>
         <div class="journey-photos">
-          <figure class="photo-tile"><img src="images/journey2_01.jpg" alt="&lt;2회기&gt; AI 셰프의 비밀 레시피 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey2_02.jpg" alt="&lt;2회기&gt; AI 셰프의 비밀 레시피 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey2_03.jpg" alt="&lt;2회기&gt; AI 셰프의 비밀 레시피 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey2_04.jpg" alt="&lt;2회기&gt; AI 셰프의 비밀 레시피 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey2_05.jpg" alt="&lt;2회기&gt; AI 셰프의 비밀 레시피 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey2_06.jpg" alt="&lt;2회기&gt; AI 셰프의 비밀 레시피 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey2_07.jpg" alt="&lt;2회기&gt; AI 셰프의 비밀 레시피 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey2_08.jpg" alt="&lt;2회기&gt; AI 셰프의 비밀 레시피 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey2_09.jpg" alt="&lt;2회기&gt; AI 셰프의 비밀 레시피 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey2_10.jpg" alt="&lt;2회기&gt; AI 셰프의 비밀 레시피 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey2_11.jpg" alt="&lt;2회기&gt; AI 셰프의 비밀 레시피 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+          <figure class="photo-tile"><img src="images/journey2_01.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_02.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_03.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_04.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_05.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_06.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_07.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_08.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_09.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_10.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_11.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_12.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
         </div>
       </article>
     
@@ -285,17 +288,18 @@
           <span>5. 30.</span>
         </div>
         <div class="journey-photos">
-          <figure class="photo-tile"><img src="images/journey3_1.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey3_2.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey3_3.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey3_4.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey3_5.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey3_6.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey3_7.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey3_8.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
-<figure class="photo-tile"><img src="images/journey3_9.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+          <figure class="photo-tile"><img src="images/journey3_01.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_02.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_03.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_04.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_05.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_06.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_07.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_08.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_09.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey3_10.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey3_11.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_12.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
         </div>
       </article>
     
@@ -316,6 +320,7 @@
 <figure class="photo-tile"><img src="images/journey4_09.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey4_10.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey4_11.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey4_12.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
         </div>
       </article>
     
@@ -336,6 +341,7 @@
 <figure class="photo-tile"><img src="images/journey5_09.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey5_10.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey5_11.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey5_12.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
         </div>
       </article>
     
@@ -356,6 +362,7 @@
 <figure class="photo-tile"><img src="images/journey6_09.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey6_10.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey6_11.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey6_12.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
         </div>
       </article>
     
@@ -376,6 +383,7 @@
 <figure class="photo-tile"><img src="images/journey7_09.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey7_10.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey7_11.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey7_12.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
         </div>
       </article>
     
@@ -396,6 +404,7 @@
 <figure class="photo-tile"><img src="images/journey8_09.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey8_10.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey8_11.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey8_12.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
         </div>
       </article>
     
@@ -601,7 +610,7 @@ const TYPE_MAP = {
   "20":"🍱 다회용기 사용",
   "30":"🥣 잔반 제로",
   "10":"🚌 대중교통 이용",
-  "50":"🥬 친환경 베이킹"
+  "50":"🥬 친환경 베이킹","8":"🪜 계단 이용"
 };
 
 function selectType(btn) {
