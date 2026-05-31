@@ -106,6 +106,17 @@
     .game-wrap { max-width:900px; margin:auto; }
     .game-box { background:#fff; border-radius:36px; padding:34px; text-align:center; color:#64748b; font-weight:900; border:6px solid #fff; box-shadow:0 8px 32px rgba(0,0,0,.08); }
     footer { text-align:center; padding:50px 24px; color:#94a3b8; font-weight:900; }
+
+    .manual-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(320px,1fr)); gap:28px; }
+    .manual-card { background:#fff; border-radius:36px; border:5px solid #fff; box-shadow:0 6px 24px rgba(0,0,0,.08); padding:28px; }
+    .manual-topic { display:inline-block; background:#1e293b; color:#fff; font-size:.75rem; font-weight:900; padding:5px 14px; border-radius:999px; margin-bottom:14px; }
+    .manual-step { font-size:.9rem; font-weight:900; color:#4caf50; float:right; }
+    .manual-prompt { font-size:1.1rem; font-weight:900; color:#1e293b; font-style:italic; margin:12px 0 16px; line-height:1.5; }
+    .manual-ai { background:rgba(232,245,233,.5); padding:16px; border-radius:22px; border:3px solid #e8f5e9; margin-bottom:10px; }
+    .manual-ai-label { font-weight:900; color:#15803d; margin-bottom:6px; font-size:.9rem; }
+    .manual-fb { background:#fffbeb; padding:16px; border-radius:22px; border:3px solid #fef9c3; }
+    .manual-fb-label { font-weight:900; color:#a16207; margin-bottom:6px; font-size:.9rem; }
+    .manual-body { color:#475569; font-weight:700; line-height:1.7; font-size:.9rem; }
     .action-card { position:relative; }
     .del-btn {
       position:absolute; top:10px; right:10px;
@@ -133,7 +144,7 @@
     <div class="brand-title"><strong>담다익선</strong><span>AI와 함께하는 친환경 베이킹</span></div>
   </div>
   <div class="nav-links">
-    <a href="#about">홈</a><a href="#action">활동 인증</a><a href="#gallery">갤러리</a><a href="#game">게임</a>
+    <a href="#about">홈</a><a href="#manual">AI 매뉴얼</a><a href="#action">활동 인증</a><a href="#gallery">갤러리</a><a href="#game">게임</a>
     <button class="save-btn" onclick="manualSave()"><span style="font-size:1.3rem">🍞</span> 저장하기</button>
   </div>
 </nav>
@@ -173,6 +184,30 @@
     <div class="main-photo">
       <img src="images/main.jpg" alt="담다익선 디지털 탄소중립 실천선언문" onerror="this.replaceWith(document.createTextNode('images/main.jpg 파일을 찾지 못했습니다.'))">
     </div>
+  </div>
+</section>
+
+<section id="manual">
+  <div class="container">
+    <div style="display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:48px;flex-wrap:wrap;gap:16px;">
+      <div>
+        <h2 class="section-title">🤖 AI-Human Co-Creation</h2>
+        <p style="font-size:1.1rem;color:#94a3b8;font-weight:700;margin-top:6px;">오브니와 AI의 친환경 원데이클래스 운영 매뉴얼 제작 과정 🍪</p>
+      </div>
+      <button class="btn" onclick="toggleManualForm()" style="white-space:nowrap;">+ 매뉴얼 추가하기</button>
+    </div>
+
+    <div id="manual-form" style="display:none;margin-bottom:36px;">
+      <div class="panel" style="max-width:520px;border-radius:36px;padding:28px;">
+        <input class="input" id="mf-topic" placeholder="주제" style="margin-bottom:12px;display:block;">
+        <input class="input" id="mf-prompt" placeholder="AI에게 요청한 내용 (프롬프트)" style="margin-bottom:12px;display:block;">
+        <textarea class="input" id="mf-answer" placeholder="AI가 준 답변" rows="4" style="margin-bottom:12px;display:block;resize:vertical;"></textarea>
+        <textarea class="input" id="mf-feedback" placeholder="내가 피드백 주거나 수정한 사항" rows="3" style="margin-bottom:18px;display:block;resize:vertical;"></textarea>
+        <button class="btn" onclick="saveManual()">저장하기 ✨</button>
+      </div>
+    </div>
+
+    <div class="manual-grid" id="manual-list"></div>
   </div>
 </section>
 
@@ -250,7 +285,17 @@
           <span>5. 30.</span>
         </div>
         <div class="journey-photos">
-          <div class="empty-photo">사진 준비 중</div>
+          <figure class="photo-tile"><img src="images/journey3_1.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.replaceWith(document.createTextNode('이미지 없음'))"></figure>
+<figure class="photo-tile"><img src="images/journey3_2.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.replaceWith(document.createTextNode('이미지 없음'))"></figure>
+<figure class="photo-tile"><img src="images/journey3_3.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.replaceWith(document.createTextNode('이미지 없음'))"></figure>
+<figure class="photo-tile"><img src="images/journey3_4.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.replaceWith(document.createTextNode('이미지 없음'))"></figure>
+<figure class="photo-tile"><img src="images/journey3_5.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.replaceWith(document.createTextNode('이미지 없음'))"></figure>
+<figure class="photo-tile"><img src="images/journey3_6.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.replaceWith(document.createTextNode('이미지 없음'))"></figure>
+<figure class="photo-tile"><img src="images/journey3_7.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.replaceWith(document.createTextNode('이미지 없음'))"></figure>
+<figure class="photo-tile"><img src="images/journey3_8.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.replaceWith(document.createTextNode('이미지 없음'))"></figure>
+<figure class="photo-tile"><img src="images/journey3_9.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.replaceWith(document.createTextNode('이미지 없음'))"></figure>
+<figure class="photo-tile"><img src="images/journey3_10.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.replaceWith(document.createTextNode('이미지 없음'))"></figure>
+<figure class="photo-tile"><img src="images/journey3_11.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.replaceWith(document.createTextNode('이미지 없음'))"></figure>
         </div>
       </article>
     
@@ -260,7 +305,17 @@
           <span>7. 10.</span>
         </div>
         <div class="journey-photos">
-          <div class="empty-photo">사진 준비 중</div>
+          <figure class="photo-tile"><img src="images/journey4_01.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey4_02.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey4_03.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey4_04.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey4_05.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey4_06.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey4_07.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey4_08.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey4_09.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey4_10.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey4_11.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
         </div>
       </article>
     
@@ -270,7 +325,17 @@
           <span>7. 11.</span>
         </div>
         <div class="journey-photos">
-          <div class="empty-photo">사진 준비 중</div>
+          <figure class="photo-tile"><img src="images/journey5_01.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey5_02.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey5_03.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey5_04.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey5_05.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey5_06.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey5_07.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey5_08.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey5_09.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey5_10.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey5_11.jpg" alt="&lt;5회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
         </div>
       </article>
     
@@ -280,7 +345,17 @@
           <span>8. 12.</span>
         </div>
         <div class="journey-photos">
-          <div class="empty-photo">사진 준비 중</div>
+          <figure class="photo-tile"><img src="images/journey6_01.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey6_02.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey6_03.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey6_04.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey6_05.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey6_06.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey6_07.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey6_08.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey6_09.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey6_10.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey6_11.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
         </div>
       </article>
     
@@ -290,7 +365,17 @@
           <span>8. 13.</span>
         </div>
         <div class="journey-photos">
-          <div class="empty-photo">사진 준비 중</div>
+          <figure class="photo-tile"><img src="images/journey7_01.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey7_02.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey7_03.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey7_04.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey7_05.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey7_06.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey7_07.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey7_08.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey7_09.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey7_10.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey7_11.jpg" alt="&lt;7회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
         </div>
       </article>
     
@@ -300,7 +385,17 @@
           <span>9. 13.</span>
         </div>
         <div class="journey-photos">
-          <div class="empty-photo">사진 준비 중</div>
+          <figure class="photo-tile"><img src="images/journey8_01.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey8_02.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey8_03.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey8_04.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey8_05.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey8_06.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey8_07.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey8_08.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey8_09.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey8_10.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
+<figure class="photo-tile"><img src="images/journey8_11.jpg" alt="&lt;8회기&gt; 사진" loading="lazy" onerror="this.parentElement.classList.add('missing');this.style.display='none'"></figure>
         </div>
       </article>
     
@@ -341,6 +436,72 @@
 
 
 <script>
+
+// ── MANUAL ──
+let manualCount = 0;
+function toggleManualForm() {
+  const f = document.getElementById('manual-form');
+  f.style.display = f.style.display === 'none' ? 'block' : 'none';
+}
+function saveManual() {
+  const topic    = document.getElementById('mf-topic').value.trim();
+  const prompt   = document.getElementById('mf-prompt').value.trim();
+  const answer   = document.getElementById('mf-answer').value.trim();
+  const feedback = document.getElementById('mf-feedback').value.trim();
+  if (!topic || !prompt) { alert('주제와 프롬프트를 입력해주세요!'); return; }
+  manualCount++;
+  const card = document.createElement('div');
+  card.className = 'manual-card';
+  card.innerHTML = `
+    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+      <span class="manual-topic">${topic}</span>
+      <span class="manual-step">Step ${String(manualCount).padStart(2,'0')}</span>
+    </div>
+    <p class="manual-prompt">"${prompt}"</p>
+    <div class="manual-ai">
+      <p class="manual-ai-label">✨ AI 답변</p>
+      <p class="manual-body">${answer || '(없음)'}</p>
+    </div>
+    <div class="manual-fb" style="margin-top:10px;">
+      <p class="manual-fb-label">✍️ 피드백 / 수정사항</p>
+      <p class="manual-body">${feedback || '(없음)'}</p>
+    </div>
+  `;
+  document.getElementById('manual-list').prepend(card);
+  // 로컬 저장
+  const saved = JSON.parse(localStorage.getItem('manuals') || '[]');
+  saved.unshift({ topic, prompt, answer, feedback });
+  localStorage.setItem('manuals', JSON.stringify(saved));
+  document.getElementById('mf-topic').value = '';
+  document.getElementById('mf-prompt').value = '';
+  document.getElementById('mf-answer').value = '';
+  document.getElementById('mf-feedback').value = '';
+  toggleManualForm();
+}
+function loadManuals() {
+  const saved = JSON.parse(localStorage.getItem('manuals') || '[]');
+  saved.forEach(m => {
+    manualCount++;
+    const card = document.createElement('div');
+    card.className = 'manual-card';
+    card.innerHTML = `
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px;">
+        <span class="manual-topic">${m.topic}</span>
+        <span class="manual-step">Step ${String(manualCount).padStart(2,'0')}</span>
+      </div>
+      <p class="manual-prompt">"${m.prompt}"</p>
+      <div class="manual-ai">
+        <p class="manual-ai-label">✨ AI 답변</p>
+        <p class="manual-body">${m.answer || '(없음)'}</p>
+      </div>
+      <div class="manual-fb" style="margin-top:10px;">
+        <p class="manual-fb-label">✍️ 피드백 / 수정사항</p>
+        <p class="manual-body">${m.feedback || '(없음)'}</p>
+      </div>
+    `;
+    document.getElementById('manual-list').appendChild(card);
+  });
+}
 // ── GAME ──
 const CW=800,CH=420,PW=120,PH=15,BR=8;
 const BCOLS=8,BROWS=3,BW=75,BH=35,BPAD=12,BTOP=60,BLEFT=55;
@@ -604,7 +765,8 @@ function manualSave() {
 
 document.addEventListener("DOMContentLoaded", () => {
   updateForest();
-  loadActions();   // 초기 1회 로드
+  loadActions();
+  loadManuals();   // 초기 1회 로드
 
   if (supabaseClient) {
     // Realtime: 다른 기기/탭에서 추가/삭제 시 자동 반영 (본인 추가는 renderAction으로 즉시 반영)
