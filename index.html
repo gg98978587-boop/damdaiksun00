@@ -193,6 +193,28 @@
     .photo-tile img { cursor:pointer; transition:transform .2s, opacity .2s; }
     .photo-tile img:hover { transform:scale(1.04); opacity:.92; }
 
+  
+    .video-tile {
+      aspect-ratio:16/9; border-radius:18px; overflow:hidden;
+      background:#000; position:relative; cursor:pointer;
+      grid-column: span 2;
+    }
+    .video-tile video { width:100%; height:100%; object-fit:cover; display:block; }
+    .video-tile .play-overlay {
+      position:absolute; inset:0; display:flex; flex-direction:column;
+      align-items:center; justify-content:center;
+      background:rgba(0,0,0,.35); transition:background .2s;
+    }
+    .video-tile:hover .play-overlay { background:rgba(0,0,0,.5); }
+    .video-tile .play-btn {
+      width:56px; height:56px; border-radius:50%;
+      background:rgba(255,255,255,.9); display:flex; align-items:center; justify-content:center;
+      font-size:1.4rem; margin-bottom:8px; transition:transform .2s;
+    }
+    .video-tile:hover .play-btn { transform:scale(1.1); }
+    .video-tile .play-label { color:#fff; font-size:.85rem; font-weight:900; text-shadow:0 1px 4px rgba(0,0,0,.5); }
+    .video-tile.playing .play-overlay { display:none; }
+
   </style>
 </head>
 <body>
@@ -407,6 +429,14 @@
 <figure class="photo-tile"><img src="images/journey4_09.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey4_10.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey4_11.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+
+<figure class="video-tile" id="vt4_1" onclick="playVideoTile(this, 'images/journey4_v1.mp4')" onerror-check="images/journey4_v1.mp4">
+  <video src="images/journey4_v1.mp4" preload="none" oncontextmenu="return false"></video>
+  <div class="play-overlay">
+    <div class="play-btn">▶</div>
+    <span class="play-label">영상 재생</span>
+  </div>
+</figure>
 <figure class="photo-tile"><img src="images/journey4_12.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
         </div>
       </article>
@@ -636,6 +666,15 @@ function renderManualCard(m, prepend) {
   });
   const list = document.getElementById('manual-list');
   if (prepend) list.prepend(card); else list.appendChild(card);
+}
+
+
+function playVideoTile(tile, src) {
+  const video = tile.querySelector('video');
+  video.src = src;
+  video.controls = true;
+  video.play();
+  tile.classList.add('playing');
 }
 
 // ── LIGHTBOX ──
