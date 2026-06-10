@@ -194,10 +194,10 @@
     .photo-tile img:hover { transform:scale(1.04); opacity:.92; }
 
   
-    .video-tile {
+    .video-tile { grid-column: 1 / -1;
       aspect-ratio:16/9; border-radius:18px; overflow:hidden;
       background:#000; position:relative; cursor:pointer;
-      grid-column: span 2;
+      grid-column: 1 / -1;
     }
     .video-tile video { width:100%; height:100%; object-fit:cover; display:block; }
     .video-tile .play-overlay {
@@ -349,15 +349,83 @@
     <h2 class="gallery-title">담다익선의 여정</h2>
     <div class="journey-grid">
       
-              <div class="journey-photos">
-          <figure class="video-tile" onclick="playVideoTile(this, 'images/journey4_v1.mp4')">
-            <video src="images/journey4_v1.mp4" preload="none" oncontextmenu="return false"></video>
-            <div class="play-overlay">
-              <div class="play-btn">▶</div>
-              <span class="play-label">영상 재생</span>
-            </div>
-          </figure>
-          <figure class="photo-tile"><img src="images/journey4_01.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+      <article class="journey-card">
+        <div class="journey-head">
+          <h3>&lt;1회기&gt; 오리엔테이션</h3>
+          <span>5. 9.</span>
+        </div>
+        <div class="journey-photos">
+          <figure class="photo-tile"><img src="images/journey1_01.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_02.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_03.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_04.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_05.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_06.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_07.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_08.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_09.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_10.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_11.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey1_12.jpg" alt="&lt;1회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+        </div>
+      </article>
+    
+      <article class="journey-card">
+        <div class="journey-head">
+          <h3>&lt;2회기&gt; AI 셰프의 비밀 레시피</h3>
+          <span>5. 15.</span>
+        </div>
+        <div class="journey-photos">
+          <figure class="photo-tile"><img src="images/journey2_01.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_02.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_03.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_04.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_05.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_06.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_07.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_08.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_09.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_10.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_11.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey2_12.jpg" alt="&lt;2회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+        </div>
+      </article>
+    
+      <article class="journey-card">
+        <div class="journey-head">
+          <h3>&lt;3회기&gt; AI로 설계하는 친환경 클래스</h3>
+          <span>5. 30.</span>
+        </div>
+        <div class="journey-photos">
+          <figure class="photo-tile"><img src="images/journey3_01.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_02.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_03.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_04.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_05.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_06.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_07.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_08.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_09.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_10.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_11.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+<figure class="photo-tile"><img src="images/journey3_12.jpg" alt="&lt;3회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+        </div>
+      </article>
+    
+      <article class="journey-card">
+        <div class="journey-head">
+          <h3>&lt;4회기&gt; 원데이클래스 운영 준비</h3>
+          <span>7. 10.</span>
+        </div>
+        <div class="journey-photos">
+<figure class="video-tile" onclick="playVideoTile(this, 'images/journey4_v1.mp4')">
+  <video src="images/journey4_v1.mp4" preload="none" oncontextmenu="return false"></video>
+  <div class="play-overlay">
+    <div class="play-btn">▶</div>
+    <span class="play-label">영상 재생</span>
+  </div>
+</figure>
+<figure class="photo-tile"><img src="images/journey4_01.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey4_02.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey4_03.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey4_04.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
@@ -366,6 +434,7 @@
 <figure class="photo-tile"><img src="images/journey4_07.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey4_08.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
 <figure class="photo-tile"><img src="images/journey4_09.jpg" alt="&lt;4회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
+        </div>
         </div>
       </article>
     
