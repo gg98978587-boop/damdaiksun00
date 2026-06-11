@@ -280,18 +280,41 @@
 
 <section id="promo" style="padding:60px 24px 0;">
   <div class="container">
-    <h2 class="section-title" style="margin-bottom:12px;">🎬 홍보 영상</h2>
-    <p style="font-size:1rem;color:#94a3b8;font-weight:700;margin-bottom:28px;">담다익선 프로젝트를 소개합니다 🌿</p>
-    <div style="position:relative;width:100%;max-width:800px;margin:0 auto;border-radius:28px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.12);background:#000;">
+    <h2 class="section-title" style="margin-bottom:12px;">🎬 프로젝트 홍보 영상</h2>
+    <p style="font-size:1rem;color:#94a3b8;font-weight:700;margin-bottom:28px;">'담다익선: AI와 함께하는 친환경 베이킹'을 소개합니다 🌿</p>
+    <div style="max-width:800px;margin:0 auto;border-radius:28px;overflow:hidden;box-shadow:0 12px 40px rgba(0,0,0,0.12);background:#000;position:relative;" id="promo-wrap">
       <video
+        id="promo-video"
         src="images/promo.mp4"
-        
         controls
-        preload="none"
-        style="width:100%;display:block;border-radius:28px;"
+        playsinline
+        preload="metadata"
+        style="width:100%;height:auto;display:block;"
+        oncontextmenu="return false"
+        onclick="document.getElementById('promo-overlay').style.display='none'"
       >
         브라우저가 영상을 지원하지 않습니다.
       </video>
+      <div id="promo-overlay" style="
+        position:absolute;inset:0;
+        display:flex;flex-direction:column;align-items:center;justify-content:center;
+        background:rgba(0,0,0,0.45);cursor:pointer;border-radius:28px;
+        transition:opacity .3s;
+      " onclick="playPromo()">
+        <div id="promo-play-btn" style="
+          width:80px;height:80px;border-radius:50%;
+          background:rgba(255,255,255,0.95);
+          display:flex;align-items:center;justify-content:center;
+          font-size:2rem;margin-bottom:16px;
+          box-shadow:0 8px 32px rgba(0,0,0,0.3);
+          transition:transform .2s;
+        ">▶</div>
+        <p id="promo-hint" style="
+          color:white;font-weight:900;font-size:1rem;
+          text-shadow:0 2px 8px rgba(0,0,0,0.5);
+          opacity:0;transition:opacity .4s;
+        ">클릭해서 재생하세요 🎬</p>
+      </div>
     </div>
   </div>
 </section>
@@ -673,6 +696,36 @@ function playVideoTile(tile, src) {
   video.play();
   tile.classList.add('playing');
 }
+
+
+// ── PROMO SCROLL HINT ──
+function playPromo() {
+  const video = document.getElementById('promo-video');
+  const overlay = document.getElementById('promo-overlay');
+  overlay.style.display = 'none';
+  video.play();
+}
+
+(function() {
+  const wrap = document.getElementById('promo-wrap');
+  const hint = document.getElementById('promo-hint');
+  const btn  = document.getElementById('promo-play-btn');
+  if (!wrap) return;
+
+  const observer = new IntersectionObserver((entries) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting && entry.intersectionRatio >= 0.5) {
+        // 재생 버튼 뿅 + 힌트 텍스트 페이드인
+        btn.style.transform = 'scale(1.15)';
+        hint.style.opacity = '1';
+        setTimeout(() => { btn.style.transform = 'scale(1)'; }, 300);
+      } else {
+        hint.style.opacity = '0';
+      }
+    });
+  }, { threshold: 0.5 });
+  observer.observe(wrap);
+})();
 
 // ── LIGHTBOX ──
 let lbImages = [];
