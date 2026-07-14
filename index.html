@@ -996,7 +996,7 @@ async function loadActions() {
 }
 
 function updateForest() {
-  const typeCo2 = {"🥤 텀블러 사용":15,"🍱 다회용기 사용":20,"🥣 잔반 제로":30,"🚌 대중교통 이용":10,"🥬 친환경 베이킹":50};
+  const typeCo2 = {"🥤 텀블러 사용":15,"🍱 다회용기 사용":20,"🥣 잔반 제로":30,"🚌 대중교통 이용":10,"🥬 친환경 베이킹":50,"🪜 계단 이용":8};
   let co2 = 0;
   document.querySelectorAll(".action-card-type").forEach(el => {
     co2 += typeCo2[el.textContent.trim()] || 0;
@@ -1007,19 +1007,66 @@ function updateForest() {
   document.getElementById("tree-count").textContent = treeCount;
   document.getElementById("co2-display").textContent = co2;
 
+  // 시드 기반 의사난수 — 같은 co2면 항상 같은 배치
+  function seededRand(seed) {
+    let s = seed;
+    return function() {
+      s = (s * 1664525 + 1013904223) & 0xffffffff;
+      return (s >>> 0) / 0xffffffff;
+    };
+  }
+  const rand = seededRand(co2 * 31 + 7);
+
   let html = `
-    <div class="forest-item" style="left:24px;top:18px;font-size:42px;">☀️</div>
-    <div class="forest-item" style="left:18%;top:30px;font-size:54px;">☁️</div>
-    <div class="forest-item" style="left:50%;top:60px;font-size:54px;">☁️</div>
-    <div class="forest-item" style="left:0;right:0;bottom:0;height:70px;background:linear-gradient(to bottom,#74c74d,#4d9b37);"></div>
+    <div class="forest-item" style="left:20px;top:14px;font-size:42px;animation:floatSun 4s ease-in-out infinite;">☀️</div>
+    <div class="forest-item" style="left:16%;top:22px;font-size:52px;animation:cloudMove 18s ease-in-out infinite;">☁️</div>
+    <div class="forest-item" style="left:48%;top:52px;font-size:44px;animation:cloudMove 24s ease-in-out infinite -8s;">☁️</div>
+    <div class="forest-item" style="right:6%;top:18px;font-size:38px;animation:cloudMove 20s ease-in-out infinite -4s;">☁️</div>
+    <div class="forest-item" style="left:0;right:0;bottom:0;height:72px;background:linear-gradient(to bottom,#74c74d,#4d9b37);border-radius:0 0 inherit inherit;"></div>
   `;
-  const flowers = ["🌼","🌸","🌺"];
-  for (let i=0; i<Math.floor(co2/55); i++) html += `<div class="forest-item" style="left:${6+(i*8)%88}%;bottom:${8+(i%4)*10}px;font-size:28px;">${flowers[i%3]}</div>`;
-  const trees = ["🌲","🌳"];
-  for (let i=0; i<treeCount; i++) html += `<div class="forest-item" style="left:${12+(i*10)%78}%;bottom:${50+(i%4)*14}px;font-size:${48+(i%4)*10}px;">${trees[i%2]}</div>`;
-  if (co2 >= 140) html += `<div class="forest-item" style="right:150px;bottom:110px;font-size:150px;">⛰️</div>`;
-  if (co2 >= 320) html += `<div class="forest-item" style="right:150px;bottom:55px;font-size:145px;">🏡</div>`;
-  if (co2 >= 520) html += `<div class="forest-item" style="left:70%;bottom:50px;font-size:80px;">🦌</div>`;
+
+  // 꽃 — 겹치지 않게 구간 나눠서 배치
+  const flowerEmojis = ["🌸","🌼","🌺","🌷"];
+  const flowerCount = Math.min(14, Math.floor(co2 / 40));
+  const usedFlowerX = [];
+  for (let i = 0; i < flowerCount; i++) {
+    let x, attempts = 0;
+    do { x = 3 + rand() * 90; attempts++; }
+    while (usedFlowerX.some(ox => Math.abs(ox - x) < 6) && attempts < 20);
+    usedFlowerX.push(x);
+    const bottom = 66 + rand() * 28;
+    const size = 20 + rand() * 14;
+    html += `<div class="forest-item" style="left:${x.toFixed(1)}%;bottom:${bottom.toFixed(0)}px;font-size:${size.toFixed(0)}px;">${flowerEmojis[i%4]}</div>`;
+  }
+
+  // 산 — 오른쪽에, 집이랑 겹치지 않게 위에 배치
+  if (co2 >= 140) html += `<div class="forest-item" style="right:230px;bottom:95px;font-size:155px;z-index:1;">⛰️</div>`;
+  if (co2 >= 220) html += `<div class="forest-item" style="right:55px;bottom:82px;font-size:195px;z-index:1;">🏔️</div>`;
+
+  // 집 — 산보다 앞, 왼쪽에
+  if (co2 >= 320) html += `<div class="forest-item" style="right:195px;bottom:60px;font-size:128px;z-index:3;">🏡</div>`;
+
+  // 나무 — 구간 분할 + 겹침 최소화
+  const treeEmojis = ["🌲","🌳"];
+  const usedTreeX = [];
+  const maxRight = co2 >= 140 ? 63 : 92;
+  for (let i = 0; i < Math.min(treeCount, 30); i++) {
+    let x, attempts = 0;
+    do { x = 3 + rand() * (maxRight - 3); attempts++; }
+    while (usedTreeX.some(ox => Math.abs(ox - x) < 5) && attempts < 30);
+    usedTreeX.push(x);
+    const isBack = rand() > 0.45;
+    const bottom = isBack ? 90 + rand() * 40 : 60 + rand() * 30;
+    const size = isBack ? 44 + rand() * 20 : 60 + rand() * 28;
+    const z = isBack ? 2 : 4;
+    html += `<div class="forest-item" style="left:${x.toFixed(1)}%;bottom:${bottom.toFixed(0)}px;font-size:${size.toFixed(0)}px;z-index:${z};">${treeEmojis[i%2]}</div>`;
+  }
+
+  // 동물
+  if (co2 >= 400) html += `<div class="forest-item" style="left:${(25+rand()*15).toFixed(0)}%;bottom:64px;font-size:60px;z-index:5;animation:bob 3s ease-in-out infinite;">🐰</div>`;
+  if (co2 >= 520) html += `<div class="forest-item" style="left:${(55+rand()*10).toFixed(0)}%;bottom:62px;font-size:72px;z-index:5;animation:bob 4s ease-in-out infinite -1s;">🦌</div>`;
+  if (co2 >= 650) html += `<div class="forest-item" style="left:44%;bottom:240px;font-size:90px;z-index:6;">🌈</div>`;
+
   document.getElementById("forest-box").innerHTML = html;
 }
 
