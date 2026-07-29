@@ -93,7 +93,7 @@
     .action-card-author { color:#94a3b8; font-size:.85rem; font-weight:900; margin-top:6px; }
     #gallery { background:rgba(227,242,253,.3); }
     .gallery-title { text-align:center; font-size:clamp(2rem,4vw,3rem); margin-bottom:48px; color:#0f172a; font-family:'Noto Sans KR','Nanum Gothic',sans-serif; font-weight:900; }
-    .journey-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(480px,1fr)); gap:34px; }
+    .journey-grid { display:grid; grid-template-columns:repeat(2,1fr); gap:34px; }
     .journey-card { background:#fff; border:6px solid #fff; border-radius:42px; box-shadow:0 8px 32px rgba(0,0,0,.08); padding:30px; }
     .journey-head { display:flex; justify-content:space-between; gap:12px; align-items:flex-start; margin-bottom:18px; }
     .journey-head h3 { font-size:1.25rem; color:#0f172a; line-height:1.35; }
@@ -487,20 +487,18 @@
           <h3>&lt;6회기&gt; 원데이클래스 운영 준비</h3>
           <span>8. 12.</span>
         </div>
-        <div style="display:grid;grid-template-columns:2fr 1fr;gap:10px;margin-bottom:10px;min-height:420px;">
-          <div style="background:#111;border-radius:18px;overflow:hidden;cursor:pointer;position:relative;" onclick="playVideoTile(this,'images/journey6_v1.mp4')">
+        <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px;margin-bottom:10px;">
+          <div style="aspect-ratio:1/1;background:#111;border-radius:18px;overflow:hidden;cursor:pointer;position:relative;" onclick="playVideoTile(this,'images/journey6_v1.mp4')">
             <video src="images/journey6_v1.mp4" preload="metadata" oncontextmenu="return false" style="width:100%;height:100%;object-fit:cover;display:block;"></video>
-            <div class="play-overlay"><div class="play-btn">▶</div><span class="play-label">영상 재생</span></div>
+            <div class="play-overlay"><div class="play-btn" style="width:36px;height:36px;font-size:1rem;">▶</div><span class="play-label" style="font-size:.8rem;">영상 재생</span></div>
           </div>
-          <div style="display:flex;flex-direction:column;gap:10px;">
-            <div style="flex:1;background:#111;border-radius:18px;overflow:hidden;cursor:pointer;position:relative;" onclick="playVideoTilePortrait(this,'images/journey6_v2.mp4')">
-              <video src="images/journey6_v2.mp4" preload="metadata" oncontextmenu="return false" style="width:100%;height:100%;object-fit:cover;display:block;"></video>
-              <div class="play-overlay"><div class="play-btn" style="width:36px;height:36px;font-size:1rem;">▶</div><span class="play-label" style="font-size:.8rem;">영상 재생</span></div>
-            </div>
-            <div style="flex:1;border-radius:18px;overflow:hidden;">
-              <img src="images/journey6_01.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}" style="width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
-            </div>
+          <div style="aspect-ratio:1/1;background:#111;border-radius:18px;overflow:hidden;cursor:pointer;position:relative;" onclick="playVideoTile(this,'images/journey6_v2.mp4')">
+            <video src="images/journey6_v2.mp4" preload="metadata" oncontextmenu="return false" style="width:100%;height:100%;object-fit:cover;display:block;"></video>
+            <div class="play-overlay"><div class="play-btn" style="width:36px;height:36px;font-size:1rem;">▶</div><span class="play-label" style="font-size:.8rem;">영상 재생</span></div>
           </div>
+          <figure style="aspect-ratio:1/1;margin:0;border-radius:18px;overflow:hidden;">
+            <img src="images/journey6_01.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}" style="width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
+          </figure>
         </div>
         <div class="journey-photos">
           <figure class="photo-tile"><img src="images/journey6_02.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}"></figure>
