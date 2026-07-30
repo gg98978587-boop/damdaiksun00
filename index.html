@@ -215,6 +215,56 @@
     .video-tile .play-label { color:#fff; font-size:.85rem; font-weight:900; text-shadow:0 1px 4px rgba(0,0,0,.5); }
     .video-tile.playing .play-overlay { display:none; }
 
+  
+    .portrait-overlay {
+      display:none; position:fixed; inset:0; z-index:99999;
+      background:rgba(0,0,0,.92); align-items:center; justify-content:center;
+    }
+    .portrait-overlay.open { display:flex; }
+    .portrait-video-wrap {
+      position:relative; height:88vh; aspect-ratio:9/16;
+      border-radius:16px; overflow:hidden; background:#000;
+    }
+    .portrait-video-wrap video { width:100%; height:100%; object-fit:contain; display:block; }
+    .portrait-close {
+      position:fixed; top:20px; right:24px;
+      background:rgba(255,255,255,.15); border:none; color:#fff;
+      font-size:1.4rem; width:44px; height:44px; border-radius:50%;
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      backdrop-filter:blur(4px); transition:background .2s;
+    }
+    .portrait-close:hover { background:rgba(255,255,255,.3); }
+    .expand-btn {
+      position:absolute; bottom:10px; right:10px;
+      background:rgba(255,255,255,.2); border:none; color:#fff;
+      font-size:1rem; width:32px; height:32px; border-radius:8px;
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      backdrop-filter:blur(4px); z-index:10; transition:background .2s;
+    }
+    .expand-btn:hover { background:rgba(255,255,255,.4); }
+
+  
+    .video-lightbox {
+      display:none; position:fixed; inset:0; z-index:99999;
+      background:rgba(0,0,0,.92); align-items:center; justify-content:center;
+    }
+    .video-lightbox.open { display:flex; }
+    .video-lb-inner {
+      position:relative; width:min(90vh * 9/16, 90vw); max-width:420px;
+      aspect-ratio:9/16;
+    }
+    .video-lb-inner video {
+      width:100%; height:100%; border-radius:16px; display:block; background:#000;
+    }
+    .video-lb-close {
+      position:absolute; top:-44px; right:0;
+      background:rgba(255,255,255,.15); border:none; color:#fff;
+      font-size:1.4rem; width:40px; height:40px; border-radius:50%;
+      cursor:pointer; display:flex; align-items:center; justify-content:center;
+      backdrop-filter:blur(4px);
+    }
+    .video-lb-close:hover { background:rgba(255,255,255,.3); }
+
   </style>
 </head>
 <body>
@@ -227,6 +277,22 @@
   </div>
   <button class="lb-next" onclick="lbMove(1);event.stopPropagation()">›</button>
   <div class="lb-counter" id="lb-counter"></div>
+</div>
+
+
+<div class="portrait-overlay" id="portrait-overlay" onclick="closePortrait(event)">
+  <button class="portrait-close" onclick="closePortraitBtn()">✕</button>
+  <div class="portrait-video-wrap">
+    <video id="portrait-video" controls playsinline oncontextmenu="return false"></video>
+  </div>
+</div>
+
+
+<div class="video-lightbox" id="video-lightbox" onclick="closeVideoLb(event)">
+  <div class="video-lb-inner">
+    <button class="video-lb-close" onclick="closeVideoLb()">✕</button>
+    <video id="lb-video" controls playsinline oncontextmenu="return false"></video>
+  </div>
 </div>
 
 <nav>
@@ -492,9 +558,10 @@
             <video src="images/journey6_v1.mp4" preload="metadata" oncontextmenu="return false" style="width:100%;height:100%;object-fit:cover;display:block;"></video>
             <div class="play-overlay"><div class="play-btn" style="width:36px;height:36px;font-size:1rem;">▶</div><span class="play-label" style="font-size:.8rem;">영상 재생</span></div>
           </div>
-          <div style="aspect-ratio:1/1;background:#111;border-radius:18px;overflow:hidden;cursor:pointer;position:relative;" onclick="playVideoTile(this,'images/journey6_v2.mp4')">
+          <div style="aspect-ratio:1/1;background:#111;border-radius:18px;overflow:hidden;cursor:pointer;position:relative;" onclick="openVideoLb('images/journey6_v2.mp4')">
             <video src="images/journey6_v2.mp4" preload="metadata" oncontextmenu="return false" style="width:100%;height:100%;object-fit:cover;display:block;"></video>
             <div class="play-overlay"><div class="play-btn" style="width:36px;height:36px;font-size:1rem;">▶</div><span class="play-label" style="font-size:.8rem;">영상 재생</span></div>
+            <button class="expand-btn" onclick="event.stopPropagation();openPortrait('images/journey6_v2.mp4')" title="세로형으로 크게 보기">⛶</button>
           </div>
           <figure style="aspect-ratio:1/1;margin:0;border-radius:18px;overflow:hidden;">
             <img src="images/journey6_01.jpg" alt="&lt;6회기&gt; 사진" loading="lazy" onclick="openLightbox(this)" onerror="if(!this.dataset.retry){this.dataset.retry=1;this.src=this.src.replace(/_0?(\d+)\.jpg$/,(_,n)=>'_'+n+'.jpg');}else if(this.dataset.retry=='1'){this.dataset.retry=2;this.src=this.src.replace('.jpg','.JPG');}else{this.parentElement.classList.add('missing');this.style.display='none';}" style="width:100%;height:100%;object-fit:cover;display:block;cursor:pointer;">
@@ -713,6 +780,26 @@ function playVideoTilePortrait(tile, src) {
     screen.orientation.lock('portrait').catch(() => {});
   }
 }
+
+function openVideoLb(src) {
+  const lb = document.getElementById('video-lightbox');
+  const video = document.getElementById('lb-video');
+  video.src = src;
+  lb.classList.add('open');
+  video.play().catch(() => {});
+  document.addEventListener('keydown', _lbVideoKey);
+}
+function closeVideoLb(e) {
+  if (e && e.target !== document.getElementById('video-lightbox') && !e.target.classList.contains('video-lb-close')) return;
+  const lb = document.getElementById('video-lightbox');
+  const video = document.getElementById('lb-video');
+  video.pause();
+  video.src = '';
+  lb.classList.remove('open');
+  document.removeEventListener('keydown', _lbVideoKey);
+}
+function _lbVideoKey(e) { if (e.key === 'Escape') closeVideoLb({target: document.getElementById('video-lightbox')}); }
+
 function playVideoTile(tile, src) {
   const video = tile.querySelector('video');
   video.src = src;
@@ -721,6 +808,26 @@ function playVideoTile(tile, src) {
   tile.classList.add('playing');
 }
 
+
+
+// ── PORTRAIT VIDEO OVERLAY ──
+function openPortrait(src) {
+  const video = document.getElementById('portrait-video');
+  video.src = src;
+  video.play();
+  document.getElementById('portrait-overlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closePortraitBtn() {
+  const video = document.getElementById('portrait-video');
+  video.pause();
+  video.src = '';
+  document.getElementById('portrait-overlay').classList.remove('open');
+  document.body.style.overflow = '';
+}
+function closePortrait(e) {
+  if (e.target === document.getElementById('portrait-overlay')) closePortraitBtn();
+}
 
 // ── PROMO SCROLL HINT ──
 function playPromo() {
