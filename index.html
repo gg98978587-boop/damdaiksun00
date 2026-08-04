@@ -272,14 +272,27 @@
     .recipe-heading { text-align:center; margin-bottom:42px; }
     .recipe-heading p { color:#64748b; font-size:1.05rem; line-height:1.7; }
     .recipe-layout { display:grid; grid-template-columns:minmax(300px,420px) 1fr; gap:34px; align-items:start; }
+    .recipe-layout.recipe-complete { grid-template-columns:1fr; }
+    .recipe-layout.recipe-complete .recipe-form { display:none; }
+    .recipe-layout.recipe-complete .recipe-grid {
+      width:100%;
+      max-width:1000px;
+      margin:0 auto;
+      grid-template-columns:repeat(2,minmax(0,1fr));
+      gap:28px;
+    }
     .recipe-form { background:#fff; padding:30px; border-radius:36px; border:6px solid #fff; box-shadow:0 12px 38px rgba(20,83,45,.10); }
     .recipe-form h3 { color:#14532d; font-size:1.35rem; margin-bottom:8px; }
     .recipe-form-note { color:#94a3b8; font-size:.85rem; line-height:1.6; margin-bottom:20px; }
     .recipe-upload-area { min-height:190px; background:#f8faf8; }
-    .recipe-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
-    .recipe-card { position:relative; background:#fff; border:5px solid #fff; border-radius:34px; overflow:hidden; box-shadow:0 10px 34px rgba(20,83,45,.10); }
+    .recipe-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; align-items:stretch; }
+    .recipe-card {
+      position:relative; background:#fff; border:5px solid #fff; border-radius:34px;
+      overflow:hidden; box-shadow:0 10px 34px rgba(20,83,45,.10);
+      display:flex; flex-direction:column; min-width:0;
+    }
     .recipe-photo { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; cursor:pointer; background:#e8f5e9; }
-    .recipe-content { padding:22px; }
+    .recipe-content { padding:22px; display:flex; flex-direction:column; flex:1; }
     .recipe-badge { display:inline-flex; align-items:center; gap:6px; background:#dcfce7; color:#15803d; padding:6px 12px; border-radius:999px; font-size:.74rem; font-weight:900; margin-bottom:10px; }
     .recipe-title { font-size:1.35rem; color:#163c20; line-height:1.35; margin-bottom:6px; }
     .recipe-author { color:#94a3b8; font-size:.83rem; margin-bottom:16px; }
@@ -309,7 +322,9 @@
       .recipe-grid { grid-template-columns:1fr 1fr; }
     }
     @media (max-width:600px) {
-      .recipe-grid, .reflection-type-grid { grid-template-columns:1fr; }
+      .recipe-grid,
+      .recipe-layout.recipe-complete .recipe-grid,
+      .reflection-type-grid { grid-template-columns:1fr; }
       .recipe-form, .reflection-form { padding:24px; }
       #reflection { border-radius:42px; }
     }
@@ -1197,8 +1212,16 @@ function parseRecipeRecord(item) {
 
 function updateRecipeState() {
   const count = document.querySelectorAll("#recipe-list .recipe-card").length;
-  document.getElementById("recipe-count").textContent = count;
-  document.getElementById("recipe-empty").style.display = count ? "none" : "flex";
+  const layout = document.querySelector("#recipe .recipe-layout");
+  const countDisplay = document.getElementById("recipe-count");
+  const emptyState = document.getElementById("recipe-empty");
+
+  if (countDisplay) countDisplay.textContent = count;
+  if (emptyState) emptyState.style.display = count ? "none" : "flex";
+
+  // 레시피가 2개 모두 등록되면 입력 박스를 숨기고,
+  // 두 레시피 카드가 페이지 중앙에 넓게 나란히 배치됩니다.
+  if (layout) layout.classList.toggle("recipe-complete", count >= 2);
 }
 
 function updateReflectionState() {
