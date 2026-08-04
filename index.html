@@ -265,6 +265,55 @@
     }
     .video-lb-close:hover { background:rgba(255,255,255,.3); }
 
+
+
+    /* LOW-CARBON RECIPE */
+    #recipe { background:linear-gradient(180deg,#f7fee7 0%,#ecfdf5 100%); }
+    .recipe-heading { text-align:center; margin-bottom:42px; }
+    .recipe-heading p { color:#64748b; font-size:1.05rem; line-height:1.7; }
+    .recipe-layout { display:grid; grid-template-columns:minmax(300px,420px) 1fr; gap:34px; align-items:start; }
+    .recipe-form { background:#fff; padding:30px; border-radius:36px; border:6px solid #fff; box-shadow:0 12px 38px rgba(20,83,45,.10); }
+    .recipe-form h3 { color:#14532d; font-size:1.35rem; margin-bottom:8px; }
+    .recipe-form-note { color:#94a3b8; font-size:.85rem; line-height:1.6; margin-bottom:20px; }
+    .recipe-upload-area { min-height:190px; background:#f8faf8; }
+    .recipe-grid { display:grid; grid-template-columns:repeat(2,minmax(0,1fr)); gap:22px; }
+    .recipe-card { position:relative; background:#fff; border:5px solid #fff; border-radius:34px; overflow:hidden; box-shadow:0 10px 34px rgba(20,83,45,.10); }
+    .recipe-photo { width:100%; aspect-ratio:4/3; object-fit:cover; display:block; cursor:pointer; background:#e8f5e9; }
+    .recipe-content { padding:22px; }
+    .recipe-badge { display:inline-flex; align-items:center; gap:6px; background:#dcfce7; color:#15803d; padding:6px 12px; border-radius:999px; font-size:.74rem; font-weight:900; margin-bottom:10px; }
+    .recipe-title { font-size:1.35rem; color:#163c20; line-height:1.35; margin-bottom:6px; }
+    .recipe-author { color:#94a3b8; font-size:.83rem; margin-bottom:16px; }
+    .recipe-detail { background:#f8faf8; border-radius:18px; padding:14px 16px; margin-top:10px; }
+    .recipe-detail strong { display:block; color:#15803d; font-size:.82rem; margin-bottom:5px; }
+    .recipe-detail p { color:#475569; font-size:.88rem; line-height:1.65; white-space:pre-line; overflow-wrap:anywhere; }
+    .recipe-empty { min-height:360px; border:4px dashed #bbf7d0; border-radius:34px; display:flex; flex-direction:column; align-items:center; justify-content:center; text-align:center; color:#86a58d; background:rgba(255,255,255,.55); padding:28px; }
+    .recipe-count { display:inline-flex; background:#14532d; color:#fff; border-radius:999px; padding:7px 16px; font-size:.82rem; margin-top:12px; }
+
+    /* YOUTH REFLECTIONS */
+    #reflection { background:#173f31; color:#fff; border-radius:70px; }
+    .reflection-title { text-align:center; color:#fff; font-size:clamp(2rem,4vw,3rem); margin-bottom:10px; }
+    .reflection-sub { text-align:center; color:#bbd6c7; line-height:1.7; margin-bottom:36px; }
+    .reflection-form { max-width:650px; margin:0 auto 48px; background:#fff; color:#1e293b; padding:36px; border-radius:40px; box-shadow:0 18px 50px rgba(0,0,0,.18); }
+    .reflection-type-grid { display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-bottom:16px; }
+    .reflection-type-btn { width:100%; padding:14px 10px; border:4px solid #f1f5f9; border-radius:22px; background:#fff; font:inherit; font-size:.88rem; font-weight:900; cursor:pointer; }
+    .reflection-type-btn.active { border-color:#4caf50; background:#f0fdf4; color:#166534; }
+    .reflection-grid { display:grid; grid-template-columns:repeat(auto-fill,minmax(245px,1fr)); gap:22px; }
+    .reflection-card { position:relative; background:#fff; color:#1e293b; padding:24px; border-radius:30px; box-shadow:0 9px 28px rgba(0,0,0,.16); min-height:190px; display:flex; flex-direction:column; }
+    .reflection-mood { color:#15803d; font-size:.78rem; font-weight:900; margin-bottom:12px; padding-right:28px; }
+    .reflection-text { font-size:1rem; font-weight:900; line-height:1.7; white-space:pre-line; overflow-wrap:anywhere; flex:1; }
+    .reflection-author { color:#94a3b8; font-size:.84rem; font-weight:900; margin-top:18px; }
+    .reflection-empty { color:#a9c8b8; text-align:center; border:3px dashed rgba(255,255,255,.25); border-radius:28px; padding:30px; }
+
+    @media (max-width:900px) {
+      .recipe-layout { grid-template-columns:1fr; }
+      .recipe-grid { grid-template-columns:1fr 1fr; }
+    }
+    @media (max-width:600px) {
+      .recipe-grid, .reflection-type-grid { grid-template-columns:1fr; }
+      .recipe-form, .reflection-form { padding:24px; }
+      #reflection { border-radius:42px; }
+    }
+
   </style>
 </head>
 <body>
@@ -301,7 +350,7 @@
     <div class="brand-title"><strong>담다익선</strong><span>AI와 함께하는 친환경 베이킹</span></div>
   </div>
   <div class="nav-links">
-    <a href="#about">홈</a><a href="#manual">AI 매뉴얼</a><a href="#action">활동 인증</a><a href="#gallery">갤러리</a><a href="#game">게임</a>
+    <a href="#about">홈</a><a href="#manual">AI 매뉴얼</a><a href="#recipe">저탄소 레시피</a><a href="#action">초록 발자국</a><a href="#gallery">여정</a><a href="#reflection">소감</a><a href="#game">게임</a>
     <button class="save-btn" onclick="manualSave()"><span style="font-size:1.3rem">🍞</span> 저장하기</button>
   </div>
 </nav>
@@ -409,6 +458,41 @@
   </div>
 </section>
 
+<section id="recipe">
+  <div class="container">
+    <div class="recipe-heading">
+      <h2 class="section-title" style="margin-bottom:12px;">🥬 오브니의 친환경 저탄소 레시피</h2>
+      <p>청소년이 직접 개발한 저탄소 베이킹 레시피를 사진과 함께 기록해요.<br>최대 2개의 레시피를 등록할 수 있습니다.</p>
+    </div>
+
+    <div class="recipe-layout">
+      <div class="recipe-form">
+        <h3>레시피 등록하기</h3>
+        <p class="recipe-form-note">레시피 이름, 재료와 만드는 방법을 입력해주세요.</p>
+        <div class="form-row"><input class="input" id="recipe-author" placeholder="작성자 이름"></div>
+        <div class="form-row"><input class="input" id="recipe-title-input" placeholder="레시피 이름"></div>
+        <div class="upload-area recipe-upload-area form-row" id="recipe-upload-area" onclick="document.getElementById('recipe-file').click()">
+          <span id="recipe-upload-placeholder">완성 사진 업로드 📸</span>
+          <input type="file" id="recipe-file" accept="image/*" style="display:none">
+        </div>
+        <div class="form-row"><textarea class="input" id="recipe-ingredients" rows="4" placeholder="재료와 분량"></textarea></div>
+        <div class="form-row"><textarea class="input" id="recipe-method" rows="5" placeholder="만드는 방법"></textarea></div>
+        <button class="btn" onclick="saveRecipe()">레시피 올리기 ✨</button>
+        <div class="recipe-count">등록 현황&nbsp; <span id="recipe-count">0</span> / 2</div>
+      </div>
+
+      <div>
+        <div class="recipe-grid" id="recipe-list"></div>
+        <div class="recipe-empty" id="recipe-empty">
+          <div style="font-size:3rem;margin-bottom:12px;">🍪</div>
+          <strong style="color:#3f6f4c;font-size:1.1rem;margin-bottom:6px;">아직 등록된 레시피가 없어요.</strong>
+          <span>첫 번째 친환경 저탄소 레시피를 올려주세요!</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="action">
   <div class="container">
     <h2 class="section-title" style="color:white;text-align:center;margin-bottom:42px;">우리들의 초록 발자국</h2>
@@ -422,7 +506,7 @@
         <button class="type-btn" data-id="50" onclick="selectType(this)">🥬 친환경 베이킹</button>
         <button class="type-btn" data-id="8" onclick="selectType(this)">🪜 계단 이용</button>
       </div>
-      <div class="upload-area form-row" onclick="document.getElementById('act-file').click()">
+      <div class="upload-area form-row" id="action-upload-area" onclick="document.getElementById('act-file').click()">
         <span id="upload-placeholder">사진 업로드 📸</span>
         <input type="file" id="act-file" accept="image/*" style="display:none">
       </div>
@@ -621,6 +705,28 @@
   </div>
 </section>
 
+<section id="reflection">
+  <div class="container">
+    <h2 class="reflection-title">💬 오브니 청소년들의 한마디</h2>
+    <p class="reflection-sub">담다익선 활동을 마치며 느낀 점과 기억에 남는 순간을 자유롭게 남겨주세요.</p>
+
+    <div class="reflection-form">
+      <div class="form-row"><input class="input" id="reflection-author" placeholder="작성자 이름"></div>
+      <div class="reflection-type-grid">
+        <button class="reflection-type-btn active" data-value="🌱 새롭게 알게 됐어요" onclick="selectReflectionType(this)">🌱 새롭게 알게 됐어요</button>
+        <button class="reflection-type-btn" data-value="🍞 활동이 즐거웠어요" onclick="selectReflectionType(this)">🍞 활동이 즐거웠어요</button>
+        <button class="reflection-type-btn" data-value="🤝 함께해서 좋았어요" onclick="selectReflectionType(this)">🤝 함께해서 좋았어요</button>
+        <button class="reflection-type-btn" data-value="🌍 앞으로 실천할래요" onclick="selectReflectionType(this)">🌍 앞으로 실천할래요</button>
+      </div>
+      <div class="form-row"><textarea class="input" id="reflection-text" rows="5" placeholder="활동 소감을 작성해주세요."></textarea></div>
+      <button class="btn" onclick="saveReflection()">소감 남기기 ✨</button>
+    </div>
+
+    <div class="reflection-grid" id="reflection-list"></div>
+    <div class="reflection-empty" id="reflection-empty">아직 등록된 소감이 없어요. 첫 번째 소감을 남겨주세요!</div>
+  </div>
+</section>
+
 <section id="game">
   <div class="container game-wrap">
     <div class="game-box">
@@ -735,10 +841,22 @@ async function loadManuals() {
     .from('manuals')
     .select('*')
     .order('created_at', { ascending: true });
-  if (error) { console.error('매뉴얼 불러오기 실패:', error); return; }
+  if (error) { console.error('콘텐츠 불러오기 실패:', error); return; }
+
   manualCount = 0;
   document.getElementById('manual-list').innerHTML = '';
-  data.forEach(m => renderManualCard(m, false));
+  document.getElementById('recipe-list').innerHTML = '';
+  document.getElementById('reflection-list').innerHTML = '';
+
+  const manuals = (data || []).filter(m => !isRecipeRecord(m) && !isReflectionRecord(m));
+  const recipes = (data || []).filter(isRecipeRecord).slice(0, 2);
+  const reflections = (data || []).filter(isReflectionRecord).reverse();
+
+  manuals.forEach(m => renderManualCard(m, false));
+  recipes.forEach(m => renderRecipeCard(m, false));
+  reflections.forEach(m => renderReflectionCard(m, false));
+  updateRecipeState();
+  updateReflectionState();
 }
 
 function renderManualCard(m, prepend) {
@@ -871,6 +989,14 @@ function openLightbox(img) {
   document.addEventListener('keydown', lbKeyHandler);
 }
 
+function openSingleLightbox(img) {
+  lbImages = [img];
+  lbIndex = 0;
+  showLbImage();
+  document.getElementById('lightbox').classList.add('open');
+  document.addEventListener('keydown', lbKeyHandler);
+}
+
 function showLbImage() {
   const img = lbImages[lbIndex];
   document.getElementById('lb-img').src = img.src;
@@ -995,6 +1121,11 @@ const supabaseClient = window.supabase ? supabase.createClient(SUPABASE_URL, SUP
 
 let selectedType = "15";
 let actionImageData = null;
+let recipeImageData = null;
+let selectedReflectionType = "🌱 새롭게 알게 됐어요";
+
+const RECIPE_PREFIX = "__RECIPE__";
+const REFLECTION_PREFIX = "__REFLECTION__";
 
 const TYPE_MAP = {
   "15":"🥤 텀블러 사용",
@@ -1031,11 +1162,207 @@ function compressImage(file, maxSize=800, quality=0.75) {
   });
 }
 
+
+function escapeCommunityHtml(value) {
+  return String(value ?? "")
+    .replace(/&/g, "&amp;")
+    .replace(/</g, "&lt;")
+    .replace(/>/g, "&gt;")
+    .replace(/"/g, "&quot;")
+    .replace(/'/g, "&#039;");
+}
+
+function isRecipeRecord(item) {
+  return String(item?.topic || "").startsWith(RECIPE_PREFIX);
+}
+
+function isReflectionRecord(item) {
+  return String(item?.topic || "").startsWith(REFLECTION_PREFIX);
+}
+
+function parseRecipeRecord(item) {
+  let detail = {};
+  try { detail = JSON.parse(item.answer || "{}"); } catch (e) { detail = {}; }
+  return {
+    id: item.id || "",
+    title: String(item.topic || "").replace(RECIPE_PREFIX, "") || "친환경 레시피",
+    author: item.prompt || "익명",
+    image: detail.image || "",
+    ingredients: detail.ingredients || "",
+    method: detail.method || "",
+    eco: detail.eco || "",
+    created_at: item.created_at || ""
+  };
+}
+
+function updateRecipeState() {
+  const count = document.querySelectorAll("#recipe-list .recipe-card").length;
+  document.getElementById("recipe-count").textContent = count;
+  document.getElementById("recipe-empty").style.display = count ? "none" : "flex";
+}
+
+function updateReflectionState() {
+  const count = document.querySelectorAll("#reflection-list .reflection-card").length;
+  document.getElementById("reflection-empty").style.display = count ? "none" : "block";
+}
+
+document.getElementById("recipe-file").addEventListener("change", async function() {
+  const file = this.files && this.files[0];
+  if (!file) return;
+  recipeImageData = await compressImage(file, 1000, 0.78);
+  const area = document.getElementById("recipe-upload-area");
+  let img = area.querySelector("img");
+  if (!img) { img = document.createElement("img"); area.appendChild(img); }
+  img.src = recipeImageData;
+  document.getElementById("recipe-upload-placeholder").style.display = "none";
+});
+
+async function saveRecipe() {
+  const currentCount = document.querySelectorAll("#recipe-list .recipe-card").length;
+  if (currentCount >= 2) {
+    alert("친환경 저탄소 레시피는 최대 2개까지 등록할 수 있어요. 기존 레시피를 삭제한 뒤 다시 등록해주세요.");
+    return;
+  }
+
+  const author = document.getElementById("recipe-author").value.trim();
+  const title = document.getElementById("recipe-title-input").value.trim();
+  const ingredients = document.getElementById("recipe-ingredients").value.trim();
+  const method = document.getElementById("recipe-method").value.trim();
+  if (!author || !title || !ingredients || !method || !recipeImageData) {
+    alert("작성자, 레시피 이름, 사진, 재료와 만드는 방법을 모두 입력해주세요.");
+    return;
+  }
+  if (!supabaseClient) { alert("Supabase 연결 안됨"); return; }
+
+  const row = {
+    topic: RECIPE_PREFIX + title,
+    prompt: author,
+    answer: JSON.stringify({ image: recipeImageData, ingredients, method }),
+    feedback: "low-carbon-recipe",
+    created_at: new Date().toISOString()
+  };
+  const { data, error } = await supabaseClient.from("manuals").insert([row]).select().single();
+  if (error) {
+    console.error("레시피 저장 실패:", error);
+    alert("레시피 저장 실패: " + error.message);
+    return;
+  }
+
+  renderRecipeCard(data, false);
+  ["recipe-author","recipe-title-input","recipe-ingredients","recipe-method"].forEach(id => {
+    document.getElementById(id).value = "";
+  });
+  document.getElementById("recipe-file").value = "";
+  recipeImageData = null;
+  const preview = document.querySelector("#recipe-upload-area img");
+  if (preview) preview.remove();
+  document.getElementById("recipe-upload-placeholder").style.display = "";
+  updateRecipeState();
+}
+
+function renderRecipeCard(item, prepend=false) {
+  const recipe = parseRecipeRecord(item);
+  if (recipe.id && document.querySelector(`#recipe-list .recipe-card[data-id="${recipe.id}"]`)) return;
+  if (document.querySelectorAll("#recipe-list .recipe-card").length >= 2) return;
+
+  const card = document.createElement("article");
+  card.className = "recipe-card";
+  card.dataset.id = recipe.id;
+  card.innerHTML = `
+    ${recipe.image ? `<img class="recipe-photo" src="${recipe.image}" alt="${escapeCommunityHtml(recipe.title)} 완성 사진" onclick="openSingleLightbox(this)">` : ""}
+    <button class="del-btn" title="삭제" onclick="deleteRecipe(this)">✕</button>
+    <div class="recipe-content">
+      <span class="recipe-badge">🌿 LOW-CARBON RECIPE</span>
+      <h3 class="recipe-title">${escapeCommunityHtml(recipe.title)}</h3>
+      <p class="recipe-author">— ${escapeCommunityHtml(recipe.author)}</p>
+      <div class="recipe-detail"><strong>🥣 재료와 분량</strong><p>${escapeCommunityHtml(recipe.ingredients)}</p></div>
+      <div class="recipe-detail"><strong>👩‍🍳 만드는 방법</strong><p>${escapeCommunityHtml(recipe.method)}</p></div>
+    </div>`;
+  const list = document.getElementById("recipe-list");
+  if (prepend) list.prepend(card); else list.appendChild(card);
+  updateRecipeState();
+}
+
+async function deleteRecipe(btn) {
+  if (!confirm("이 레시피를 삭제할까요?")) return;
+  const card = btn.closest(".recipe-card");
+  const id = card.dataset.id;
+  card.remove();
+  updateRecipeState();
+  if (id && supabaseClient) {
+    const { error } = await supabaseClient.from("manuals").delete().eq("id", id);
+    if (error) console.error("레시피 삭제 실패:", error);
+  }
+}
+
+function selectReflectionType(btn) {
+  document.querySelectorAll(".reflection-type-btn").forEach(b => b.classList.remove("active"));
+  btn.classList.add("active");
+  selectedReflectionType = btn.dataset.value;
+}
+
+async function saveReflection() {
+  const author = document.getElementById("reflection-author").value.trim();
+  const text = document.getElementById("reflection-text").value.trim();
+  if (!author || !text) {
+    alert("작성자 이름과 활동 소감을 입력해주세요.");
+    return;
+  }
+  if (!supabaseClient) { alert("Supabase 연결 안됨"); return; }
+
+  const row = {
+    topic: REFLECTION_PREFIX + selectedReflectionType,
+    prompt: author,
+    answer: text,
+    feedback: "youth-reflection",
+    created_at: new Date().toISOString()
+  };
+  const { data, error } = await supabaseClient.from("manuals").insert([row]).select().single();
+  if (error) {
+    console.error("소감 저장 실패:", error);
+    alert("소감 저장 실패: " + error.message);
+    return;
+  }
+
+  renderReflectionCard(data, true);
+  document.getElementById("reflection-author").value = "";
+  document.getElementById("reflection-text").value = "";
+  updateReflectionState();
+}
+
+function renderReflectionCard(item, prepend=false) {
+  if (item.id && document.querySelector(`#reflection-list .reflection-card[data-id="${item.id}"]`)) return;
+  const mood = String(item.topic || "").replace(REFLECTION_PREFIX, "") || "🌱 담다익선 활동 소감";
+  const card = document.createElement("article");
+  card.className = "reflection-card";
+  card.dataset.id = item.id || "";
+  card.innerHTML = `
+    <button class="del-btn" title="삭제" onclick="deleteReflection(this)">✕</button>
+    <div class="reflection-mood">${escapeCommunityHtml(mood)}</div>
+    <div class="reflection-text">${escapeCommunityHtml(item.answer || "")}</div>
+    <div class="reflection-author">— ${escapeCommunityHtml(item.prompt || "익명")}</div>`;
+  const list = document.getElementById("reflection-list");
+  if (prepend) list.prepend(card); else list.appendChild(card);
+  updateReflectionState();
+}
+
+async function deleteReflection(btn) {
+  if (!confirm("이 소감을 삭제할까요?")) return;
+  const card = btn.closest(".reflection-card");
+  const id = card.dataset.id;
+  card.remove();
+  updateReflectionState();
+  if (id && supabaseClient) {
+    const { error } = await supabaseClient.from("manuals").delete().eq("id", id);
+    if (error) console.error("소감 삭제 실패:", error);
+  }
+}
+
 document.getElementById("act-file").addEventListener("change", async function() {
   const file = this.files && this.files[0];
   if (!file) return;
   actionImageData = await compressImage(file);
-  const area = document.querySelector(".upload-area");
+  const area = document.getElementById("action-upload-area");
   let img = area.querySelector("img");
   if (!img) { img = document.createElement("img"); area.appendChild(img); }
   img.src = actionImageData;
@@ -1074,7 +1401,7 @@ async function addAction() {
   document.getElementById("act-comment").value = "";
   document.getElementById("act-file").value = "";
   actionImageData = null;
-  const img = document.querySelector(".upload-area img");
+  const img = document.querySelector("#action-upload-area img");
   if (img) img.remove();
   document.getElementById("upload-placeholder").style.display = "";
   updateForest();
@@ -1219,14 +1546,23 @@ document.addEventListener("DOMContentLoaded", async () => {
     // Realtime: 다른 기기/탭에서 추가/삭제 시 자동 반영 (본인 추가는 renderAction으로 즉시 반영)
     supabaseClient.channel("manuals-rt")
       .on("postgres_changes", { event:"INSERT", schema:"public", table:"manuals" }, payload => {
-        // 내가 추가한 건 이미 렌더됐으므로 중복 방지
-        if (!document.querySelector(`.manual-card[data-id="${payload.new.id}"]`)) {
-          renderManualCard(payload.new, true);
+        const item = payload.new;
+        if (isRecipeRecord(item)) {
+          renderRecipeCard(item, false);
+        } else if (isReflectionRecord(item)) {
+          renderReflectionCard(item, true);
+        } else if (!document.querySelector(`.manual-card[data-id="${item.id}"]`)) {
+          renderManualCard(item, true);
         }
       })
       .on("postgres_changes", { event:"DELETE", schema:"public", table:"manuals" }, payload => {
-        const card = document.querySelector(`.manual-card[data-id="${payload.old.id}"]`);
+        const id = payload.old.id;
+        const card = document.querySelector(`.manual-card[data-id="${id}"]`) ||
+                     document.querySelector(`.recipe-card[data-id="${id}"]`) ||
+                     document.querySelector(`.reflection-card[data-id="${id}"]`);
         if (card) card.remove();
+        updateRecipeState();
+        updateReflectionState();
       })
       .subscribe();
 
