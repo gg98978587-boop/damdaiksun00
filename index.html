@@ -316,6 +316,15 @@
     .reflection-text { font-size:1rem; font-weight:900; line-height:1.7; white-space:pre-line; overflow-wrap:anywhere; flex:1; }
     .reflection-author { color:#94a3b8; font-size:.84rem; font-weight:900; margin-top:18px; }
     .reflection-empty { color:#a9c8b8; text-align:center; border:3px dashed rgba(255,255,255,.25); border-radius:28px; padding:30px; }
+    .data-error {
+      display:none; margin:0 auto 24px; max-width:760px;
+      background:#fff7ed; color:#9a3412; border:3px solid #fed7aa;
+      border-radius:20px; padding:14px 18px; font-size:.88rem; font-weight:900;
+      line-height:1.6; text-align:center;
+    }
+    #action .data-error, #reflection .data-error {
+      background:rgba(255,255,255,.96); color:#9a3412; border-color:#fed7aa;
+    }
 
     @media (max-width:900px) {
       .recipe-layout { grid-template-columns:1fr; }
@@ -459,6 +468,8 @@
       <button class="btn" onclick="toggleManualForm()" style="white-space:nowrap;">+ 매뉴얼 추가하기</button>
     </div>
 
+    <div class="data-error" id="manual-data-error"></div>
+
     <div id="manual-form" style="display:none;margin-bottom:36px;">
       <div class="panel" style="max-width:520px;border-radius:36px;padding:28px;">
         <input class="input" id="mf-topic" placeholder="주제" style="margin-bottom:12px;display:block;">
@@ -479,6 +490,8 @@
       <h2 class="section-title" style="margin-bottom:12px;">🥬 오브니의 친환경 저탄소 레시피</h2>
       <p>청소년이 직접 개발한 저탄소 베이킹 레시피를 사진과 함께 기록해요.<br>최대 2개의 레시피를 등록할 수 있습니다.</p>
     </div>
+
+    <div class="data-error" id="recipe-data-error"></div>
 
     <div class="recipe-layout">
       <div class="recipe-form">
@@ -511,6 +524,7 @@
 <section id="action">
   <div class="container">
     <h2 class="section-title" style="color:white;text-align:center;margin-bottom:42px;">우리들의 초록 발자국</h2>
+    <div class="data-error" id="action-data-error"></div>
     <div class="action-form">
       <div class="form-row"><input class="input" id="act-author" placeholder="작성자 이름"></div>
       <div class="type-grid">
@@ -725,6 +739,7 @@
   <div class="container">
     <h2 class="reflection-title">💬 오브니 청소년들의 한마디</h2>
     <p class="reflection-sub">담다익선 활동을 마치며 느낀 점과 기억에 남는 순간을 자유롭게 남겨주세요.</p>
+    <div class="data-error" id="reflection-data-error"></div>
 
     <div class="reflection-form">
       <div class="form-row"><input class="input" id="reflection-author" placeholder="작성자 이름"></div>
@@ -852,17 +867,33 @@ async function saveManual() {
   toggleManualForm();
 }
 async function loadManuals() {
-  if (!supabaseClient) return;
-  const { data, error } = await supabaseClient
-    .from('manuals')
-    .select('*')
-    .order('created_at', { ascending: true });
-  if (error) { console.error('콘텐츠 불러오기 실패:', error); return; }
+  const errorIds = ["manual-data-error", "recipe-data-error", "reflection-data-error"];
+  if (!supabaseClient) {
+    showDataError(errorIds, "공유 기록 서버에 연결하지 못했습니다. 인터넷 연결 또는 Supabase 설정을 확인해주세요.");
+    return false;
+  }
 
+  const { data, error } = await runWithRetry(() =>
+    supabaseClient
+      .from("manuals")
+      .select("*")
+      .order("created_at", { ascending: true })
+  );
+
+  if (error) {
+    console.error("콘텐츠 불러오기 실패:", error);
+    showDataError(
+      errorIds,
+      "저장된 공유 기록을 불러오지 못했습니다. Supabase의 manuals 테이블 SELECT/RLS 권한을 확인해주세요."
+    );
+    return false;
+  }
+
+  clearDataError(errorIds);
   manualCount = 0;
-  document.getElementById('manual-list').innerHTML = '';
-  document.getElementById('recipe-list').innerHTML = '';
-  document.getElementById('reflection-list').innerHTML = '';
+  document.getElementById("manual-list").innerHTML = "";
+  document.getElementById("recipe-list").innerHTML = "";
+  document.getElementById("reflection-list").innerHTML = "";
 
   const manuals = (data || []).filter(m => !isRecipeRecord(m) && !isReflectionRecord(m));
   const recipes = (data || []).filter(isRecipeRecord).slice(0, 2);
@@ -873,6 +904,7 @@ async function loadManuals() {
   reflections.forEach(m => renderReflectionCard(m, false));
   updateRecipeState();
   updateReflectionState();
+  return true;
 }
 
 function renderManualCard(m, prepend) {
@@ -1143,6 +1175,42 @@ let selectedReflectionType = "🌱 새롭게 알게 됐어요";
 const RECIPE_PREFIX = "__RECIPE__";
 const REFLECTION_PREFIX = "__REFLECTION__";
 
+function showDataError(ids, message) {
+  (Array.isArray(ids) ? ids : [ids]).forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = message;
+    el.style.display = "block";
+  });
+}
+
+function clearDataError(ids) {
+  (Array.isArray(ids) ? ids : [ids]).forEach(id => {
+    const el = document.getElementById(id);
+    if (!el) return;
+    el.textContent = "";
+    el.style.display = "none";
+  });
+}
+
+function wait(ms) {
+  return new Promise(resolve => setTimeout(resolve, ms));
+}
+
+async function runWithRetry(requestFn, retries = 2) {
+  let lastResult = null;
+  for (let attempt = 0; attempt <= retries; attempt++) {
+    try {
+      lastResult = await requestFn();
+      if (!lastResult?.error) return lastResult;
+    } catch (error) {
+      lastResult = { data: null, error };
+    }
+    if (attempt < retries) await wait(600 * (attempt + 1));
+  }
+  return lastResult || { data: null, error: new Error("데이터 요청 실패") };
+}
+
 const TYPE_MAP = {
   "15":"🥤 텀블러 사용",
   "20":"🍱 다회용기 사용",
@@ -1272,6 +1340,7 @@ async function saveRecipe() {
     return;
   }
 
+  clearDataError(["manual-data-error", "recipe-data-error", "reflection-data-error"]);
   renderRecipeCard(data, false);
   ["recipe-author","recipe-title-input","recipe-ingredients","recipe-method"].forEach(id => {
     document.getElementById(id).value = "";
@@ -1311,12 +1380,18 @@ async function deleteRecipe(btn) {
   if (!confirm("이 레시피를 삭제할까요?")) return;
   const card = btn.closest(".recipe-card");
   const id = card.dataset.id;
-  card.remove();
-  updateRecipeState();
+
   if (id && supabaseClient) {
     const { error } = await supabaseClient.from("manuals").delete().eq("id", id);
-    if (error) console.error("레시피 삭제 실패:", error);
+    if (error) {
+      console.error("레시피 삭제 실패:", error);
+      alert("삭제 권한이 없습니다. 공개 QR 페이지에서는 관리자만 삭제하도록 설정하는 것을 권장합니다.");
+      return;
+    }
   }
+
+  card.remove();
+  updateRecipeState();
 }
 
 function selectReflectionType(btn) {
@@ -1348,6 +1423,7 @@ async function saveReflection() {
     return;
   }
 
+  clearDataError(["manual-data-error", "recipe-data-error", "reflection-data-error"]);
   renderReflectionCard(data, true);
   document.getElementById("reflection-author").value = "";
   document.getElementById("reflection-text").value = "";
@@ -1374,12 +1450,18 @@ async function deleteReflection(btn) {
   if (!confirm("이 소감을 삭제할까요?")) return;
   const card = btn.closest(".reflection-card");
   const id = card.dataset.id;
-  card.remove();
-  updateReflectionState();
+
   if (id && supabaseClient) {
     const { error } = await supabaseClient.from("manuals").delete().eq("id", id);
-    if (error) console.error("소감 삭제 실패:", error);
+    if (error) {
+      console.error("소감 삭제 실패:", error);
+      alert("삭제 권한이 없습니다. 공개 QR 페이지에서는 관리자만 삭제하도록 설정하는 것을 권장합니다.");
+      return;
+    }
   }
+
+  card.remove();
+  updateReflectionState();
 }
 
 document.getElementById("act-file").addEventListener("change", async function() {
@@ -1413,14 +1495,20 @@ async function addAction() {
     return;
   }
 
-  const { error } = await supabaseClient.from("actions").insert([row]);
+  const { data, error } = await supabaseClient
+    .from("actions")
+    .insert([row])
+    .select()
+    .single();
+
   if (error) {
     console.error(error);
-    alert("저장 실패: Supabase actions 테이블/RLS 설정을 확인해주세요.");
+    alert("저장 실패: Supabase actions 테이블의 INSERT/SELECT RLS 설정을 확인해주세요.");
     return;
   }
 
-  renderAction(row, true);
+  clearDataError("action-data-error");
+  renderAction(data || row, true);
   document.getElementById("act-author").value = "";
   document.getElementById("act-comment").value = "";
   document.getElementById("act-file").value = "";
@@ -1433,15 +1521,17 @@ async function addAction() {
 
 function renderAction(item, prepend=false) {
   const list = document.getElementById("actions-list");
+  if (item.id && document.querySelector(`#actions-list .action-card[data-id="${item.id}"]`)) return;
+
   const card = document.createElement("article");
   card.className = "action-card";
   card.dataset.id = item.id || "";
   card.innerHTML = `
     ${item.image ? `<img src="${item.image}" alt="활동 인증 사진">` : ""}
     <button class="del-btn" title="삭제" onclick="deleteAction(this)">✕</button>
-    <div class="action-card-type">${item.type || ""}</div>
-    <div class="action-card-text">${item.comment || ""}</div>
-    <div class="action-card-author">— ${item.author || "익명"}</div>
+    <div class="action-card-type">${escapeCommunityHtml(item.type || "")}</div>
+    <div class="action-card-text">${escapeCommunityHtml(item.comment || "")}</div>
+    <div class="action-card-author">— ${escapeCommunityHtml(item.author || "익명")}</div>
   `;
   if (prepend) list.prepend(card);
   else list.appendChild(card);
@@ -1451,28 +1541,48 @@ async function deleteAction(btn) {
   if (!confirm("이 활동을 삭제할까요?")) return;
   const card = btn.closest(".action-card");
   const id = card.dataset.id;
-  card.remove();
-  updateForest();
+
   if (id && supabaseClient) {
     const { error } = await supabaseClient.from("actions").delete().eq("id", id);
-    if (error) console.error("삭제 실패:", error);
+    if (error) {
+      console.error("삭제 실패:", error);
+      alert("삭제 권한이 없습니다. 공개 QR 페이지에서는 관리자만 삭제하도록 설정하는 것을 권장합니다.");
+      return;
+    }
   }
+
+  card.remove();
+  updateForest();
 }
 
 async function loadActions() {
-  if (!supabaseClient) return;
-  const { data, error } = await supabaseClient
-    .from("actions")
-    .select("*")
-    .order("created_at", { ascending:false });
-  if (error) {
-    console.error(error);
-    return;
+  if (!supabaseClient) {
+    showDataError("action-data-error", "공유 기록 서버에 연결하지 못했습니다. 인터넷 연결 또는 Supabase 설정을 확인해주세요.");
+    return false;
   }
+
+  const { data, error } = await runWithRetry(() =>
+    supabaseClient
+      .from("actions")
+      .select("*")
+      .order("created_at", { ascending:false })
+  );
+
+  if (error) {
+    console.error("초록 발자국 불러오기 실패:", error);
+    showDataError(
+      "action-data-error",
+      "저장된 친환경 실천 기록을 불러오지 못했습니다. Supabase의 actions 테이블 SELECT/RLS 권한을 확인해주세요."
+    );
+    return false;
+  }
+
+  clearDataError("action-data-error");
   const list = document.getElementById("actions-list");
   list.innerHTML = "";
   (data || []).forEach(item => renderAction(item));
   updateForest();
+  return true;
 }
 
 function updateForest() {
@@ -1561,10 +1671,27 @@ function manualSave() {
   setTimeout(() => toast.remove(), 2200);
 }
 
+let sharedRefreshTimer = null;
+
+async function refreshSharedData() {
+  await Promise.all([loadActions(), loadManuals()]);
+}
+
+function scheduleSharedRefresh(delay = 250) {
+  clearTimeout(sharedRefreshTimer);
+  sharedRefreshTimer = setTimeout(() => refreshSharedData(), delay);
+}
+
 document.addEventListener("DOMContentLoaded", async () => {
   updateForest();
-  loadActions();
-  await loadManuals();   // 초기 1회 로드
+  await refreshSharedData();
+
+  // 휴대폰에서 다른 앱/탭을 보고 돌아왔을 때 최신 기록을 다시 불러옵니다.
+  document.addEventListener("visibilitychange", () => {
+    if (document.visibilityState === "visible") scheduleSharedRefresh(150);
+  });
+  window.addEventListener("focus", () => scheduleSharedRefresh(150));
+  window.addEventListener("online", () => scheduleSharedRefresh(150));
 
   if (supabaseClient) {
     // Realtime: 다른 기기/탭에서 추가/삭제 시 자동 반영 (본인 추가는 renderAction으로 즉시 반영)
