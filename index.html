@@ -1363,7 +1363,6 @@ function renderRecipeCard(item, prepend=false) {
   card.dataset.id = recipe.id;
   card.innerHTML = `
     ${recipe.image ? `<img class="recipe-photo" src="${recipe.image}" alt="${escapeCommunityHtml(recipe.title)} 완성 사진" onclick="openSingleLightbox(this)">` : ""}
-    <button class="del-btn" title="삭제" onclick="deleteRecipe(this)">✕</button>
     <div class="recipe-content">
       <span class="recipe-badge">🌿 LOW-CARBON RECIPE</span>
       <h3 class="recipe-title">${escapeCommunityHtml(recipe.title)}</h3>
@@ -1376,22 +1375,9 @@ function renderRecipeCard(item, prepend=false) {
   updateRecipeState();
 }
 
-async function deleteRecipe(btn) {
-  if (!confirm("이 레시피를 삭제할까요?")) return;
-  const card = btn.closest(".recipe-card");
-  const id = card.dataset.id;
-
-  if (id && supabaseClient) {
-    const { error } = await supabaseClient.from("manuals").delete().eq("id", id);
-    if (error) {
-      console.error("레시피 삭제 실패:", error);
-      alert("삭제 권한이 없습니다. 공개 QR 페이지에서는 관리자만 삭제하도록 설정하는 것을 권장합니다.");
-      return;
-    }
-  }
-
-  card.remove();
-  updateRecipeState();
+async function deleteRecipe() {
+  alert("공개 페이지에서는 레시피를 삭제할 수 없습니다.");
+  return;
 }
 
 function selectReflectionType(btn) {
@@ -1437,7 +1423,6 @@ function renderReflectionCard(item, prepend=false) {
   card.className = "reflection-card";
   card.dataset.id = item.id || "";
   card.innerHTML = `
-    <button class="del-btn" title="삭제" onclick="deleteReflection(this)">✕</button>
     <div class="reflection-mood">${escapeCommunityHtml(mood)}</div>
     <div class="reflection-text">${escapeCommunityHtml(item.answer || "")}</div>
     <div class="reflection-author">— ${escapeCommunityHtml(item.prompt || "익명")}</div>`;
@@ -1446,22 +1431,9 @@ function renderReflectionCard(item, prepend=false) {
   updateReflectionState();
 }
 
-async function deleteReflection(btn) {
-  if (!confirm("이 소감을 삭제할까요?")) return;
-  const card = btn.closest(".reflection-card");
-  const id = card.dataset.id;
-
-  if (id && supabaseClient) {
-    const { error } = await supabaseClient.from("manuals").delete().eq("id", id);
-    if (error) {
-      console.error("소감 삭제 실패:", error);
-      alert("삭제 권한이 없습니다. 공개 QR 페이지에서는 관리자만 삭제하도록 설정하는 것을 권장합니다.");
-      return;
-    }
-  }
-
-  card.remove();
-  updateReflectionState();
+async function deleteReflection() {
+  alert("공개 페이지에서는 소감을 삭제할 수 없습니다.");
+  return;
 }
 
 document.getElementById("act-file").addEventListener("change", async function() {
